@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_lab=self.webpackChunkdocusaurus_template_lab||[]).push([["8730"],{522:function(u,e,t){t.d(e,{Z:function(){return n}});let n=t(1336)},7936:function(){}}]);

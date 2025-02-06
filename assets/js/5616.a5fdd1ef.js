@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_lab=self.webpackChunkdocusaurus_template_lab||[]).push([["5616"],{5270:function(u,e,s){s.r(e)}}]);

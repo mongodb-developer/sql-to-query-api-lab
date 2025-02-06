@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_lab=self.webpackChunkdocusaurus_template_lab||[]).push([["7365"],{2050:function(u){u.exports=JSON.parse('{"name":"docusaurus-plugin-content-pages","id":"default"}')}}]);

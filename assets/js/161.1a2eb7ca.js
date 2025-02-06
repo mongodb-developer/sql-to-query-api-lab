@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_lab=self.webpackChunkdocusaurus_template_lab||[]).push([["161"],{5845:function(e,u,t){t.d(u,{createArchitectureServices:function(){return c.i}});var c=t(8693);t(5318)}}]);
