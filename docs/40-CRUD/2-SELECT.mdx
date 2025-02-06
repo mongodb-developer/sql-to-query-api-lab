@@ -1,0 +1,82 @@
+# 👐 SELECT → projection
+
+In SQL, the `SELECT` statement allows us to specify which columns to retrieve from a table. Similarly, in MongoDB, we use **projection** in the `.find()` method to control which fields to include (or exclude) in query results.
+
+## Syntax
+
+```js
+db.collection.find({ <query> }, { projection })
+```
+
+## **Projection Basics**
+
+- By default, MongoDB returns all fields in a document.
+- Use projection to **include (1)** or **exclude (0)** specific fields.
+- The `_id` field is always included unless explicitly excluded.
+  1
+
+## **Example 1: Retrieve only `title` and `authors` fields**
+
+```js
+db.books.find({}, { title: 1, authors: 1, _id: 0 });
+```
+
+**Equivalent SQL Query:**
+
+```sql
+SELECT title, authors FROM books;
+```
+
+Here:
+
+- `{}` means "match all documents."
+- `{ title: 1, authors: 1, _id: 0 }` specifies that only `title` and `authors` should be returned, and `_id` should be excluded.
+
+---
+
+## **Example 2: Exclude the `reviews` field**
+
+```js
+db.books.find({}, { reviews: 0 });
+```
+
+**Equivalent SQL Query:**
+
+```sql
+SELECT title, authors, genres, totalInventory, available FROM books;
+```
+
+Here:
+
+- We are removing `reviews`, but all other fields will still appear.
+
+---
+
+## **Example 3: Using Projection along with a Query**
+
+```js
+db.books.find({ genres: "Science" }, { title: 1, totalInventory: 1, _id: 0 });
+```
+
+**Equivalent SQL Query:**
+
+```sql
+SELECT title, totalInventory FROM books WHERE genres='Science';
+```
+
+Here:
+
+- We first **filter** books that belong to the "Science" genre.
+- We then **select only** the `title` and `totalInventory` fields.
+
+---
+
+## **Exercises**
+
+👐 **Retrieve only the `title` field for all books.**  
+👐 **Fetch only `title` and `totalInventory` for books with more than 500 pages.**  
+👐 **Retrieve all fields except `_id` and `authors` for books in the "History" genre.**  
+👐 **Find all books written by "Isaac Asimov" and return only `title` and `available` copies.**  
+👐 **Exclude `reviews` and `attributes` from the query results.**
+
+---

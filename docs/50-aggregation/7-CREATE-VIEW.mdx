@@ -1,0 +1,113 @@
+# 👐 $merge
+
+In MongoDB, the **$merge** stage allows you to **write the results of an aggregation pipeline into a new or existing collection**. This is similar to the concept of "INSERT INTO ... SELECT" or "MERGE INTO" in SQL databases.
+
+---
+
+## **🔹 Understanding $merge**
+
+The `$merge` stage enables you to store aggregation results into a different collection. If the target collection doesn’t exist, MongoDB will create it automatically.
+
+### **Key Features:**
+
+✔️ Inserts new documents if they don’t exist.
+✔️ Updates existing documents based on `_id` or a specified field.
+✔️ Can replace, merge, or discard duplicate records.
+✔️ Useful for **ETL workflows, reporting tables, and maintaining summary data.**
+
+---
+
+## **🔹 Syntax**
+
+```js
+{ $merge: {
+    into: "targetCollection",
+    on: "_id", // Field to match existing records
+    whenMatched: "merge", // Action when a match is found
+    whenNotMatched: "insert" // Action when no match is found
+} }
+```
+
+- **`into`** → Specifies the target collection.
+- **`on`** → Defines how documents are matched (default: `_id`).
+- **`whenMatched`** → Specifies action when a document with the same key exists.
+  - `merge`: Updates matching documents.
+  - `replace`: Replaces matching documents.
+  - `keepExisting`: Keeps the existing document unchanged.
+  - `fail`: Throws an error on duplicates.
+- **`whenNotMatched`** → Specifies action when a match is not found.
+  - `insert`: Inserts new documents.
+  - `discard`: Ignores unmatched documents.
+  - `fail`: Throws an error if a match is not found.
+
+---
+
+## **🔹 Example 1: Creating a Summary Collection**
+
+👉 Suppose we want to generate a collection that contains the **total number of books per genre**.
+
+```js
+db.books.aggregate([
+  { $unwind: "$genres" },
+  { $group: { _id: "$genres", totalBooks: { $sum: 1 } } },
+  {
+    $merge: {
+      into: "genre_summary",
+      on: "_id",
+      whenMatched: "merge",
+      whenNotMatched: "insert",
+    },
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+INSERT INTO genre_summary (genre, totalBooks)
+SELECT genre, COUNT(*) FROM books
+GROUP BY genre
+ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
+```
+
+---
+
+## **🔹 Example 2: Maintaining an Author Summary Table**
+
+👉 We want to create an **author_stats** collection with the total number of books written by each author.
+
+```js
+db.books.aggregate([
+  { $unwind: "$authors" },
+  { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
+  {
+    $merge: {
+      into: "author_stats",
+      on: "_id",
+      whenMatched: "merge",
+      whenNotMatched: "insert",
+    },
+  },
+]);
+```
+
+### **SQL Equivalent**
+
+```sql
+INSERT INTO author_stats (authorName, totalBooks)
+SELECT authors.name, COUNT(*) FROM books
+GROUP BY authors.name
+ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
+```
+
+---
+
+## **🔹 Exercise 🚀**
+
+👐 Create a `top_rated_books` collection that stores books with an average rating above 4.5.
+👐 Maintain a `review_stats` collection that contains the total number of reviews per book.
+👐 Update the `borrowed_books_summary` collection by storing the total borrowed count for each book.
+
+---
+
+🚀 **Next Up: Optimizing Aggregation Pipelines!**

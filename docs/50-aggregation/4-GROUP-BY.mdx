@@ -1,0 +1,125 @@
+# 👐 $group
+
+In SQL, the GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country".
+The GROUP BY statement is often used with aggregate functions (COUNT(), MAX(), MIN(), SUM(), AVG()) to group the result-set by one or more columns.
+
+The `$group` stage in MongoDB’s Aggregation Framework is equivalent to `GROUP BY` in SQL. It allows us to group documents by a specific field and apply aggregate functions like sum, average, count, min, and max.
+
+---
+
+## 🎬 How Does $group Work?\*\*
+
+The `$group` stage groups documents based on a field and performs calculations on grouped data.
+
+### **Syntax**
+
+```js
+{
+  $group: {
+    _id: <expression>,
+    <field>: { <accumulator>: <expression> }
+  }
+}
+```
+
+- `_id`: The field to group by (use `null` to aggregate all documents together).
+- `<accumulator>`: An aggregation operator (`$sum`, `$avg`, `$min`, `$max`, `$push`, `$addToSet`, etc.).
+
+---
+
+## 👐 Example 1: Count the number of Books published every year
+
+### **MongoDB Query**
+
+```js
+db.books.aggregate([
+  {
+    $group: {
+      _id: "$year",
+      totalBooks: { $sum: 1 },
+    },
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+SELECT year, COUNT(*) AS totalBooks
+FROM books
+GROUP BY year;
+```
+
+### **Sample Output**
+
+```json
+[
+  {"_id": 1980,"totalBooks": 42},
+  {"_id": 2000,"totalBooks": 490},
+  {"_id": 1981,"totalBooks": 45},
+  ...
+]
+```
+
+---
+
+## 👐 Example 2: Without using `$group`- count the number of Books published every year
+
+### MongoDB Query
+
+```js
+db.books.aggregate([
+  {
+    $sortByCount: "$year",
+  },
+]);
+```
+
+### Sample Output remains the same as before
+
+```json
+[
+  {"_id": 1980,"totalBooks": 42},
+  {"_id": 2000,"totalBooks": 490},
+  {"_id": 1981,"totalBooks": 45},
+  ...
+]
+```
+
+---
+
+## 👐 Example 3: Find the Average Book Rating of all books
+
+### **MongoDB Query**
+
+```js
+db.reviews.aggregate([
+  { $group: { _id: "$bookId", avgRating: { $avg: "$rating" } } },
+]);
+```
+
+### Equivalent SQL Query
+
+```sql
+SELECT bookId, AVG(rating) AS avgRating
+FROM reviews
+GROUP BY bookId;
+```
+
+### Sample Output
+
+```json
+[
+  { "_id": "1885865171", "avgRating": 4.2 },
+  { "_id": "0738701688", "avgRating": 4.33 },
+  { "_id": "0747545448", "avgRating": 5 }
+]
+```
+
+---
+
+## 👐 Exercise
+
+👐 Find the total number of reviews each book has received.  
+👐 Get the highest rating given to each book.  
+👐 Count the number of authors who have written at least one book.

@@ -1,0 +1,95 @@
+# 👐 $lookup (JOINs in MongoDB)
+
+`$lookup` in MongoDB serves a similar purpose to **JOINs** in SQL. It enables combining data from multiple collections by performing an equality match between fields.
+
+---
+
+## **🔹 Understanding $lookup**
+
+The `$lookup` stage is used to fetch related documents from another collection, similar to `INNER JOIN` or `LEFT JOIN` in SQL.
+
+### **Syntax**
+
+```js
+{
+  $lookup: {
+    from: "<foreign_collection>",  // Collection to join
+    localField: "<local_field>",   // Field in current collection
+    foreignField: "<foreign_field>", // Field in foreign collection
+    as: "<output_array>"             // Output field
+  }
+}
+```
+
+- `from`: The target collection for joining.
+- `localField`: The field in the current collection.
+- `foreignField`: The field in the target collection.
+- `as`: The output field containing the joined data as an array.
+
+---
+
+## 🔹 Joining 2 collections
+
+### 👐 Example 1: Joining Authors collection with Books\*\*
+
+🔍 **Get book details along with their authors**
+
+```js
+db.authors.aggregate([
+  {
+    $lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      as: "booksWritten",
+    },
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+SELECT books.*, authors.*
+FROM authors
+LEFT JOIN books ON authors._id = books.author_id;
+```
+
+:::info
+The result in MongoDB will have an array (`authorDetails`) instead of flat columns.
+:::
+
+---
+
+## 🔹 Handling Unwinding ($unwind)
+
+Since `$lookup` produces an **array**, we can flatten it using `$unwind`.
+
+### Example 2: Get Book Titles and Single Author Name
+
+```js
+db.authors.aggregate([
+  {
+    $lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      as: "booksWritten",
+    },
+  },
+  { $unwind: "$booksWritten" },
+  { $project: { name: 1, "booksWritten.title": 1, _id: 0 } },
+]);
+```
+
+:::info
+The $lookup operation creates an array within each book document. Using $unwind then flattens this array, resulting in a separate document for every book and each author.
+:::
+
+---
+
+## **🚀 Exercise**
+
+👐 Fetch books with their associated reviews.
+👐 Get authors and the books they have written.
+👐 Use `$unwind` to show each book-author pair separately.

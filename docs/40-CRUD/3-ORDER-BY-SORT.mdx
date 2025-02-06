@@ -1,0 +1,67 @@
+# 👐 ORDER BY → .sort() & LIMIT → .limit()
+
+In SQL, we use `ORDER BY` to sort query results and `LIMIT` to restrict the number of returned rows. MongoDB provides the `.sort()` and `.limit()` methods to achieve the same.
+
+---
+
+## **Sorting in MongoDB**
+
+- `{ field: 1 }` → **Ascending order** (A → Z, smallest to largest)
+- `{ field: -1 }` → **Descending order** (Z → A, largest to smallest)
+- You can sort by multiple fields, just like SQL.
+
+## **Limiting Results**
+
+- `.limit(n)` restricts the number of documents returned.
+- Used together with `.sort()`, it helps fetch the **top N** results.
+
+---
+
+### 1: Top 5 Books with the Highest Inventory
+
+```js
+db.books.find().sort({ totalInventory: -1 }).limit(5);
+```
+
+**Equivalent SQL Query:**
+
+```sql
+SELECT * FROM books ORDER BY totalInventory DESC LIMIT 5;
+```
+
+This fetches the **5 books with the highest stock**.
+
+---
+
+### 2: Get the title of top 10 Fiction Books by highest page count
+
+```js
+db.books
+  .find({ genres: "Fiction" }, { title: 1, pages: 1 })
+  .sort({ pages: -1 })
+  .limit(10);
+```
+
+:::info
+
+Along with the title, we fetched pages as well to ensure that we are getting the right results.
+
+:::
+
+**Equivalent SQL Query:**
+
+```sql
+SELECT title, pages FROM books WHERE genres='Fiction' ORDER BY pages DESC LIMIT 10;
+```
+
+This returns the **top 10 available books** in the "Science Fiction" genre.
+
+---
+
+## **Exercises**
+
+👐 Retrieve the top 3 books with the most reviews.  
+👐 Find the **first 10 books** alphabetically by `title`.  
+👐 Get the **latest 5 books** added to the database (assume a `createdAt` field).  
+👐 Find **the 2 oldest authors** (assume a `birthYear` field).  
+👐 Retrieve **the top 7 books** with the highest `rating`.

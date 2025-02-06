@@ -1,0 +1,101 @@
+# 👐 $match and $project
+
+MongoDB’s **Aggregation Framework** allows for powerful data transformations and analysis. The **$match**, **$project** & **$sort** stages are fundamental building blocks of an aggregation pipeline.
+
+---
+
+## **🔹 $match → Filtering Data**
+
+Just like `.find()` based on the query mentioned, the `$match` stage filters documents from the collection.
+
+### **Syntax**
+
+```js
+{ $match: { <query> } }
+```
+
+### Example: Get All the Books that were published after the year 2010
+
+```js
+db.books.aggregate([
+  {
+    $match: { year: { $gt: 2010 } },
+  },
+]);
+```
+
+:::info
+Place `$match` as early as possible in the pipeline to reduce the number of documents processed in later stages.
+:::
+
+---
+
+## **🔹 $project → Selecting Fields**
+
+- The `$project` stage controls which fields are included in the output.
+- It can also be used for adding computed fields to the results.
+
+### **Syntax**
+
+```js
+{
+  $project: {
+    field1: 1,
+    field2: 1,
+    _id: 0
+  }
+}
+```
+
+- `1`: Include the field
+- `0`: Exclude the field
+
+### Example: Get all the books published after the year 2010, the output should only include the title, year and page count of the book.
+
+```js
+db.books.aggregate([
+  {
+    $match: { year: { $gt: 2010 } },
+  },
+  {
+    $project: {
+      title: 1,
+      year: 1,
+      pages: 1,
+      _id: 0,
+    },
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+SELECT title, year, pages FROM books WHERE year>2010;
+```
+
+### **Computed Fields Example:** Along with the title & authors, also output the count of authors for every book in the database.
+
+```js
+db.books.aggregate([
+  {
+    $project: {
+      title: 1,
+      authors: 1,
+      authorCount: { $size: "$authors" },
+    },
+  },
+]);
+```
+
+---
+
+### **Exercise 🚀**
+
+👐 Find books with more than 10 available copies.  
+👐 Return only book titles and publication year.  
+👐 Create a computed field `stockStatus`: "In Stock" if available > 0, otherwise "Out of Stock".
+
+---
+
+🔹 **Next Up: Understanding $group and $sort!**

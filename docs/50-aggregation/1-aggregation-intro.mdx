@@ -1,0 +1,72 @@
+# 📘 Intro to Aggregation Pipelines
+
+### What is an Aggregation Pipeline?
+
+The Aggregation Pipeline in MongoDB is a powerful framework for data processing and transformation. It allows you to perform operations like filtering, grouping, sorting, and reshaping data, similar to SQL queries but in a more flexible and scalable way.
+
+In SQL, you achieve complex queries using `SELECT`, `WHERE`, `GROUP BY`, `HAVING`, and `JOIN` statements. In MongoDB, aggregation pipelines allow you to achieve the same results by passing data through multiple **stages**, each performing a specific transformation.
+
+---
+
+### Why Use Aggregation?
+
+- **Efficient Processing:** Aggregation pipelines process data within the database engine, reducing the need for client-side computations.
+- **Scalability:** Designed to handle large datasets efficiently.
+- **Powerful Transformations:** Enables complex data transformations, similar to `GROUP BY`, `JOIN`, and computed fields in SQL.
+
+---
+
+### SQL vs. MongoDB Aggregation Pipeline
+
+| SQL Operation             | MongoDB Equivalent      |
+| ------------------------- | ----------------------- |
+| `WHERE`                   | `$match`                |
+| `SELECT column1, column2` | `$project`              |
+| `ORDER BY`                | `$sort`                 |
+| `GROUP BY`                | `$group`                |
+| `HAVING`                  | `$match` after `$group` |
+| `JOIN`                    | `$lookup`               |
+
+---
+
+### Basic Structure of an Aggregation Pipeline
+
+An aggregation pipeline consists of multiple **stages**, where each stage processes and transforms the data before passing it to the next stage.
+
+```js
+ db.collection.aggregate([
+    { stage1 },
+    { stage2 },
+    { stage3 },
+    ...
+ ])
+```
+
+Each stage uses a specific **operator** (like `$match`, `$project`, or `$group`) to manipulate the data.
+
+---
+
+### Example: Aggregation Pipeline Overview
+
+#### SQL Query:
+
+```sql
+SELECT title, available
+FROM books
+WHERE available > 5
+ORDER BY available DESC;
+```
+
+#### Equivalent MongoDB Aggregation:
+
+```js
+db.books.aggregate([
+  { $match: { available: { $gt: 5 } } },
+  { $project: { title: 1, available: 1, _id: 0 } },
+  { $sort: { available: -1 } },
+]);
+```
+
+---
+
+Next, let's dive into individual stages, starting with `$match` and `$project`. 🚀

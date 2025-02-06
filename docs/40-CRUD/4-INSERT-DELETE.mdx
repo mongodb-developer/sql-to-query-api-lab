@@ -1,0 +1,67 @@
+# 👐 INSERT → insertOne() & DELETE → deleteOne()
+
+MongoDB provides two methods for inserting documents into a collection:
+
+- `.insertOne()`: Inserts a single document.
+- `.insertMany()`: Inserts multiple documents at once.
+
+And just like insert MongoDB provides:
+
+- `.deleteOne()`: Deletes the first matching document.
+- `.deleteMany()`: Deletes all matching documents.
+
+## Example: Insert a new review
+
+```js
+db.reviews.insertOne({
+  text: "Best book I have ever read.",
+  rating: 5,
+  name: "Jack",
+  bookId: "0786222727",
+});
+```
+
+### Equivalent SQL Query
+
+```sql
+INSERT INTO reviews (text, rating, name, bookId)
+VALUES ('Best book I have ever read.', 5, 'Jack', '0786222727');
+```
+
+## Example: Insert multiple reviews
+
+```js
+db.reviews.insertMany([
+  {
+    text: "Amazing plot.",
+    rating: 5,
+    name: "John",
+    bookId: "0786222727",
+  },
+  {
+    text: "Over-hyped, tbh I feel it's very boring!",
+    rating: 2,
+    name: "Nick",
+    bookId: "0786222727",
+  },
+]);
+```
+
+## Example: Delete one review
+
+```js
+db.reviews.deleteOne({
+  bookId: "0786222727",
+});
+```
+
+### Equivalent SQL Query
+
+```sql
+DELETE FROM reviews WHERE bookId = '0786222727';
+```
+
+## Exercises
+
+- 👐 Insert 4 more reviews for `bookId` "0786222727".
+- 👐 Delete all the reviews for `bookId` "0786222727" through a single command.

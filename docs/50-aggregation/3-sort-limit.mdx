@@ -1,0 +1,97 @@
+# 👐 $sort and $limit
+
+## 🔹 $sort → Sorting results
+
+### Syntax
+
+```js
+{
+  $sort: {
+    field: 1,
+  }
+}
+```
+
+- `{ field: 1 }` → **Ascending order** (A → Z, smallest to largest)
+- `{ field: -1 }` → **Descending order** (Z → A, largest to smallest)
+- You can sort by multiple fields, just like SQL.
+
+### Example: Find the most recent reviews on our app.
+
+```js
+db.reviews.aggregate([
+  {
+    $sort: { timestamp: -1 },
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+SELECT * FROM books ORDER BY timestamp DESC;
+```
+
+---
+
+## 🔹 $limit → Limiting the number of results
+
+### Syntax
+
+```json
+{
+  $limit: n
+}
+```
+
+- n is the maximum number of documents you want in your results
+
+### Example: Find the 5 most recent reviews on our app.
+
+```js
+db.reviews.aggregate([
+  {
+    $sort: { timestamp: -1 },
+  },
+  {
+    $limit: 5,
+  },
+]);
+```
+
+### **Equivalent SQL Query**
+
+```sql
+SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
+```
+
+---
+
+### 👐 Challenge: After the year 2010, which book has the most number of authors.
+
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.aggregate([
+        {
+          $match: { year: {$lt: 2010}}
+        },
+        {
+          $project: {
+            title: 1,
+            authors: 1,
+            numAuthors: {$size: "$authors"},
+            _id: 0
+          }
+        },
+        {
+          $sort: { "numAuthors": -1}
+        },
+        {
+          $limit: 1
+        }
+      ]);
+    ```
+  </div>
+</details>
