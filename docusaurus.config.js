@@ -11,7 +11,7 @@ const organizationName = "mongodb-developer";
 // Main page config
 const title = "SQL to MongoDB Query API";
 const tagLine =
-  "From SQL to Aggregations: By leveraging the Power of MongoDB unlock insights from your data.";
+  "From SQL to Aggregations: By leveraging the Power of MongoDB unlock insights from your data!";
 const startButtonTitle = "Get started";
 const favicon = "img/favicon.svg";
 
