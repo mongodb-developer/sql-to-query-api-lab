@@ -58,10 +58,15 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
 
 ---
 
-## **Exercises**
+## Challenge
 
-👐 Retrieve the top 3 books with the most reviews.  
-👐 Find the **first 10 books** alphabetically by `title`.  
-👐 Get the **latest 5 books** added to the database (assume a `createdAt` field).  
-👐 Find **the 2 oldest authors** (assume a `birthYear` field).  
-👐 Retrieve **the top 7 books** with the highest `rating`.
+### 👐 1. Find the first 10 books alphabetically by `title`.
+
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.find({}).sort({title: 1}).limit(10)
+    ```
+  </div>
+</details>

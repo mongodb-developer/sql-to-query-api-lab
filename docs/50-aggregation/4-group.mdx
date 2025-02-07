@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 $group
 
 In SQL, the GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country".
@@ -118,8 +121,59 @@ GROUP BY bookId;
 
 ---
 
-## 👐 Exercise
+## 👐 Challenge
 
-👐 Find the total number of reviews each book has received.  
-👐 Get the highest rating given to each book.  
-👐 Count the number of authors who have written at least one book.
+### 👐 1. Find the total number of pages published every year.
+
+<details>
+  <summary>Answer</summary>
+    ```js
+    db.books.aggregate([
+      {
+        $group: {
+          _id: "$year",
+          totalPages: { $sum: "$pages" }
+        }
+      },
+    ]);
+    ```
+</details>
+
+### 👐 2. Find users with the most number of reviews. Hint: Use the `name` field in the reviews collection.
+
+<details>
+  <summary>Answer</summary>
+  There are 2 ways to solve this- 
+  - $group with $sort 
+  - $sortByCount
+  <Tabs groupId="aggregations">
+    <TabItem value="atlas" label="$group with $sum + $sort">
+    ```js
+    db.reviews.aggregate([
+      {
+        $group: {
+          _id: "$name",
+          totalReviews: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          totalReviews: -1,
+        },
+      },
+    ]);
+    ```
+    </TabItem>
+
+    <TabItem value="mongodb-shell" label="$sortByCount">
+    ```js
+    db.reviews.aggregate([
+      {
+        $sortByCount: "$name",
+      },
+    ]);
+    ```
+    </TabItem>
+
+  </Tabs>
+</details>

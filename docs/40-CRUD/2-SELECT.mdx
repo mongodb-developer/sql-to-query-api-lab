@@ -71,12 +71,26 @@ Here:
 
 ---
 
-## **Exercises**
+## **Challenge**
 
-👐 **Retrieve only the `title` field for all books.**  
-👐 **Fetch only `title` and `totalInventory` for books with more than 500 pages.**  
-👐 **Retrieve all fields except `_id` and `authors` for books in the "History" genre.**  
-👐 **Find all books written by "Isaac Asimov" and return only `title` and `available` copies.**  
-👐 **Exclude `reviews` and `attributes` from the query results.**
+### 👐 1. Retrieve only the `title` field for all books.
 
----
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.find({}, {title: 1, _id: 0});
+    ```
+  </div>
+</details>
+
+### 👐 2. Retrieve all fields except `_id` and `authors` for books in the "History" genre.
+
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.find({genres: "History"}, {_id: 0, authors: 0});
+    ```
+  </div>
+</details>

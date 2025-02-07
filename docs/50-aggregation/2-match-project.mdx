@@ -90,12 +90,31 @@ db.books.aggregate([
 
 ---
 
-### **Exercise 🚀**
+## Challenge 🚀
 
-👐 Find books with more than 10 available copies.  
-👐 Return only book titles and publication year.  
-👐 Create a computed field `stockStatus`: "In Stock" if available > 0, otherwise "Out of Stock".
+### 👐 1. Find books with more than 2 available copies.
 
----
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.aggregate([
+        { $match: {available: {$gt: 2}}}
+      ]);
+    ```
+  </div>
+</details>
 
-🔹 **Next Up: Understanding $group and $sort!**
+### 👐 2. Find books with more than 2 available copies, return only book titles and publication year.
+
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.aggregate([
+        { $match: {available: {$gt: 2}}},
+        { $project: {title: 1, year: 1, _id: 0}}
+      ]);
+    ```
+  </div>
+</details>

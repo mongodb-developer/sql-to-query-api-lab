@@ -102,12 +102,23 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 
 ---
 
-## **🔹 Exercise 🚀**
+## 👐 Challenge
 
 👐 Create a `top_rated_books` collection that stores books with an average rating above 4.5.
-👐 Maintain a `review_stats` collection that contains the total number of reviews per book.
-👐 Update the `borrowed_books_summary` collection by storing the total borrowed count for each book.
 
----
-
-🚀 **Next Up: Optimizing Aggregation Pipelines!**
+<details>
+  <summary>Answer</summary>
+    ```js
+    db.books.aggregate([
+      {
+        $lookup:
+          {
+            from: "reviews",
+            localField: "_id",
+            foreignField: "bookId",
+            as: "reviews"
+          }
+      }
+    ]);
+    ```
+</details>

@@ -76,8 +76,18 @@ Executing the above command, will insert a fresh new document in the collection 
 
 ---
 
-## Exercises
+## Challenge
 
-- 👐 Update the pages of "NoSQL Guide" to 450.
-- 👐 Update all books published before 2000 to have isClassic: true.
-- 👐 What happens if no document matches the update query?
+### 👐 1. Update the pages of the book "Treasure of the Sun" to 449.
+
+<details>
+  <summary>Answer</summary>
+  <div>
+    ```js
+      db.books.updateOne(
+        {"title": "Treasure of the Sun"}, 
+        {$set: {pages: 449}}
+      );
+    ```
+  </div>
+</details>

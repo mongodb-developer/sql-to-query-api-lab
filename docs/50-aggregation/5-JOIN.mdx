@@ -30,9 +30,9 @@ The `$lookup` stage is used to fetch related documents from another collection, 
 
 ## 🔹 Joining 2 collections
 
-### 👐 Example 1: Joining Authors collection with Books\*\*
+### 👐 Example 1: Joining Authors collection with Books
 
-🔍 **Get book details along with their authors**
+🔍 Get book details along with their authors
 
 ```js
 db.authors.aggregate([
@@ -65,7 +65,7 @@ The result in MongoDB will have an array (`authorDetails`) instead of flat colum
 
 Since `$lookup` produces an **array**, we can flatten it using `$unwind`.
 
-### Example 2: Get Book Titles and Single Author Name
+### Example 2: Get Only Book Titles and Single Author Name
 
 ```js
 db.authors.aggregate([
@@ -83,13 +83,28 @@ db.authors.aggregate([
 ```
 
 :::info
-The $lookup operation creates an array within each book document. Using $unwind then flattens this array, resulting in a separate document for every book and each author.
+The $lookup operation creates an array within each book document. Using $unwind then flattens this array, resulting in a separate document for every single book - author pair.
 :::
 
 ---
 
-## **🚀 Exercise**
+## 👐 Challenge
 
-👐 Fetch books with their associated reviews.
-👐 Get authors and the books they have written.
-👐 Use `$unwind` to show each book-author pair separately.
+### 👐 1. Fetch books with their associated reviews
+
+<details>
+  <summary>Answer</summary>
+    ```js
+    db.books.aggregate([
+      {
+        $lookup:
+          {
+            from: "reviews",
+            localField: "_id",
+            foreignField: "bookId",
+            as: "reviews"
+          }
+      }
+    ]);
+    ```
+</details>
