@@ -1,6 +1,6 @@
 # 📘 Intro to Aggregation Pipelines
 
-### What is an Aggregation Pipeline?
+### What is an aggregation pipeline?
 
 The Aggregation Pipeline in MongoDB is a powerful framework for data processing and transformation. It allows you to perform operations like filtering, grouping, sorting, and reshaping data, similar to SQL queries but in a more flexible and scalable way.
 
@@ -8,11 +8,11 @@ In SQL, you achieve complex queries using `SELECT`, `WHERE`, `GROUP BY`, `HAVING
 
 ---
 
-### Why Use Aggregation?
+### Why use aggregation?
 
-- **Efficient Processing:** Aggregation pipelines process data within the database engine, reducing the need for client-side computations.
-- **Scalability:** Designed to handle large datasets efficiently.
-- **Powerful Transformations:** Enables complex data transformations, similar to `GROUP BY`, `JOIN`, and computed fields in SQL.
+- **Efficient processing:** Aggregation pipelines process data within the database engine, reducing the need for client-side computations.
+- **Scalability:** They're designed to handle large datasets efficiently.
+- **Powerful transformations:** They enable complex data transformations, similar to `GROUP BY`, `JOIN`, and computed fields in SQL.
 
 ---
 
@@ -29,7 +29,7 @@ In SQL, you achieve complex queries using `SELECT`, `WHERE`, `GROUP BY`, `HAVING
 
 ---
 
-### Basic Structure of an Aggregation Pipeline
+### Basic structure of an aggregation pipeline
 
 An aggregation pipeline consists of multiple **stages**, where each stage processes and transforms the data before passing it to the next stage.
 
@@ -46,9 +46,9 @@ Each stage uses a specific **operator** (like `$match`, `$project`, or `$group`)
 
 ---
 
-### Example: Aggregation Pipeline Overview
+### Example: Aggregation pipeline overview
 
-#### SQL Query:
+#### SQL query:
 
 ```sql
 SELECT title, available
@@ -57,7 +57,7 @@ WHERE available > 5
 ORDER BY available DESC;
 ```
 
-#### Equivalent MongoDB Aggregation:
+#### Equivalent MongoDB aggregation:
 
 ```js
 db.books.aggregate([
