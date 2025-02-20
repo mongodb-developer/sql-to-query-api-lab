@@ -77,7 +77,7 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
     ```js
       db.books.aggregate([
         {
-          $match: { year: {$lt: 2010}}
+          $match: { year: {$gt: 2010}}
         },
         {
           $project: {

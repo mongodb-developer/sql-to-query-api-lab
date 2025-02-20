@@ -47,14 +47,6 @@ db.authors.aggregate([
 ]);
 ```
 
-### **Equivalent SQL Query**
-
-```sql
-SELECT books.*, authors.*
-FROM authors
-LEFT JOIN books ON authors._id = books.author_id;
-```
-
 :::info
 The result in MongoDB will have an array (`authorDetails`) instead of flat columns.
 :::
