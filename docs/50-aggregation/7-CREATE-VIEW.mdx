@@ -8,12 +8,12 @@ In MongoDB, the **$merge** stage allows you to **write the results of an aggrega
 
 The `$merge` stage enables you to store aggregation results into a different collection. If the target collection doesn’t exist, MongoDB will create it automatically.
 
-### **Key Features:**
+### **Key features:**
 
-✔️ Inserts new documents if they don’t exist.
-✔️ Updates existing documents based on `_id` or a specified field.
-✔️ Can replace, merge, or discard duplicate records.
-✔️ Useful for **ETL workflows, reporting tables, and maintaining summary data.**
+✔️ Inserts new documents if they don’t exist
+✔️ Updates existing documents based on `_id` or a specified field
+✔️ Can replace, merge, or discard duplicate records
+✔️ Useful for **ETL workflows, reporting tables, and maintaining summary data**
 
 ---
 
@@ -42,7 +42,7 @@ The `$merge` stage enables you to store aggregation results into a different col
 
 ---
 
-## **🔹 Example 1: Creating a Summary Collection**
+## **🔹 Example 1: Creating a summary collection**
 
 👉 Suppose we want to generate a collection that contains the **total number of books per genre**.
 
@@ -61,7 +61,7 @@ db.books.aggregate([
 ]);
 ```
 
-### **Equivalent SQL Query**
+### **Equivalent SQL query**
 
 ```sql
 INSERT INTO genre_summary (genre, totalBooks)
@@ -72,7 +72,7 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 
 ---
 
-## **🔹 Example 2: Maintaining an Author Summary Table**
+## **🔹 Example 2: Maintaining an author summary table**
 
 👉 We want to create an **author_stats** collection with the total number of books written by each author.
 
@@ -91,7 +91,7 @@ db.books.aggregate([
 ]);
 ```
 
-### **SQL Equivalent**
+### **SQL equivalent**
 
 ```sql
 INSERT INTO author_stats (authorName, totalBooks)
