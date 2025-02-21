@@ -8,7 +8,7 @@ In SQL, the `SELECT` statement allows us to specify which columns to retrieve fr
 db.collection.find({ <query> }, { projection })
 ```
 
-## **Projection Basics**
+## **Projection basics**
 
 - By default, MongoDB returns all fields in a document.
 - Use projection to **include (1)** or **exclude (0)** specific fields.
@@ -21,7 +21,7 @@ db.collection.find({ <query> }, { projection })
 db.books.find({}, { title: 1, authors: 1, _id: 0 });
 ```
 
-**Equivalent SQL Query:**
+**Equivalent SQL query:**
 
 ```sql
 SELECT title, authors FROM books;
@@ -40,7 +40,7 @@ Here:
 db.books.find({}, { reviews: 0 });
 ```
 
-**Equivalent SQL Query:**
+**Equivalent SQL query:**
 
 ```sql
 SELECT title, authors, genres, totalInventory, available FROM books;
@@ -52,13 +52,13 @@ Here:
 
 ---
 
-## **Example 3: Using Projection along with a Query**
+## **Example 3: Using projection along with a query**
 
 ```js
 db.books.find({ genres: "Science" }, { title: 1, totalInventory: 1, _id: 0 });
 ```
 
-**Equivalent SQL Query:**
+**Equivalent SQL query:**
 
 ```sql
 SELECT title, totalInventory FROM books WHERE genres='Science';
