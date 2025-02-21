@@ -3,14 +3,14 @@ import TabItem from "@theme/TabItem";
 
 # 👐 $group
 
-In SQL, the GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country".
+In SQL, the GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country."
 The GROUP BY statement is often used with aggregate functions (COUNT(), MAX(), MIN(), SUM(), AVG()) to group the result-set by one or more columns.
 
 The `$group` stage in MongoDB’s Aggregation Framework is equivalent to `GROUP BY` in SQL. It allows us to group documents by a specific field and apply aggregate functions like sum, average, count, min, and max.
 
 ---
 
-## 🎬 How Does $group Work?\*\*
+## 🎬 How does $group work?
 
 The `$group` stage groups documents based on a field and performs calculations on grouped data.
 
@@ -25,14 +25,14 @@ The `$group` stage groups documents based on a field and performs calculations o
 }
 ```
 
-- `_id`: The field to group by (use `null` to aggregate all documents together).
-- `<accumulator>`: An aggregation operator (`$sum`, `$avg`, `$min`, `$max`, `$push`, `$addToSet`, etc.).
+- `_id`: The field to group by (use `null` to aggregate all documents together)
+- `<accumulator>`: An aggregation operator (`$sum`, `$avg`, `$min`, `$max`, `$push`, `$addToSet`, etc.)
 
 ---
 
-## 👐 Example 1: Count the number of Books published every year
+## 👐 Example 1: Count the number of books published every year
 
-### **MongoDB Query**
+### **MongoDB query**
 
 ```js
 db.books.aggregate([
@@ -45,7 +45,7 @@ db.books.aggregate([
 ]);
 ```
 
-### **Equivalent SQL Query**
+### **Equivalent SQL query**
 
 ```sql
 SELECT year, COUNT(*) AS totalBooks
@@ -53,7 +53,7 @@ FROM books
 GROUP BY year;
 ```
 
-### **Sample Output**
+### **Sample output**
 
 ```json
 [
@@ -66,9 +66,9 @@ GROUP BY year;
 
 ---
 
-## 👐 Example 2: Without using `$group`- count the number of Books published every year
+## 👐 Example 2: Without using `$group`, count the number of books published every year
 
-### MongoDB Query
+### MongoDB query
 
 ```js
 db.books.aggregate([
@@ -78,7 +78,7 @@ db.books.aggregate([
 ]);
 ```
 
-### Sample Output remains the same as before
+### Sample output remains the same as before
 
 ```json
 [
@@ -93,7 +93,8 @@ db.books.aggregate([
 
 ## 👐 Example 3: Find the total number of pages published every year.
 
-### **MongoDB Query**
+
+### **MongoDB query**
 
 ```js
 db.books.aggregate([
@@ -106,7 +107,7 @@ db.books.aggregate([
 ]);
 ```
 
-### Equivalent SQL Query
+### Equivalent SQL query
 
 ```sql
 SELECT year, SUM(rating) AS totalPages
@@ -114,7 +115,7 @@ FROM books
 GROUP BY year;
 ```
 
-### Sample Output
+### Sample output
 
 ```json
 [
@@ -129,7 +130,8 @@ GROUP BY year;
 
 ## 👐 Challenge
 
-### 👐 1. Find the Average Book Rating of all books
+
+### 👐 1. Find the average book rating of all books
 
 <details>
   <summary>Answer</summary>
@@ -146,7 +148,7 @@ GROUP BY year;
 
 </details>
 
-### 👐 2. Find users with the most number of reviews. Hint: Use the `name` field in the reviews collection.
+### 👐 2. Find users with the most number of reviews (Hint: use the `name` field in the reviews collection)
 
 <details>
   <summary>Answer</summary>
