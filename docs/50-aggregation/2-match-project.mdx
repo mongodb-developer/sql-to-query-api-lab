@@ -1,10 +1,10 @@
 # 👐 $match and $project
 
-MongoDB’s **Aggregation Framework** allows for powerful data transformations and analysis. The **$match**, **$project** & **$sort** stages are fundamental building blocks of an aggregation pipeline.
+MongoDB’s **Aggregation Framework** allows for powerful data transformations and analysis. The **$match**, **$project**, and **$sort** stages are fundamental building blocks of an aggregation pipeline.
 
 ---
 
-## **🔹 $match → Filtering Data**
+## **🔹 $match → Filtering data**
 
 Just like `.find()` based on the query mentioned, the `$match` stage filters documents from the collection.
 
@@ -14,7 +14,7 @@ Just like `.find()` based on the query mentioned, the `$match` stage filters doc
 { $match: { <query> } }
 ```
 
-### Example: Get All the Books that were published after the year 2010
+### Example: Get all the books that were published after the year 2010
 
 ```js
 db.books.aggregate([
@@ -30,7 +30,7 @@ Place `$match` as early as possible in the pipeline to reduce the number of docu
 
 ---
 
-## **🔹 $project → Selecting Fields**
+## **🔹 $project → Selecting fields**
 
 - The `$project` stage controls which fields are included in the output.
 - It can also be used for adding computed fields to the results.
@@ -50,7 +50,7 @@ Place `$match` as early as possible in the pipeline to reduce the number of docu
 - `1`: Include the field
 - `0`: Exclude the field
 
-### Example: Get all the books published after the year 2010, the output should only include the title, year and page count of the book.
+### Example: Get all the books published after the year 2010. The output should only include the title, year, and page count of the book.
 
 ```js
 db.books.aggregate([
@@ -68,13 +68,13 @@ db.books.aggregate([
 ]);
 ```
 
-### **Equivalent SQL Query**
+### **Equivalent SQL query**
 
 ```sql
 SELECT title, year, pages FROM books WHERE year>2010;
 ```
 
-### **Computed Fields Example:** Along with the title & authors, also output the count of authors for every book in the database.
+### **Computed fields example:** Along with the title and authors, also output the count of authors for every book in the database.
 
 ```js
 db.books.aggregate([
@@ -105,7 +105,7 @@ db.books.aggregate([
   </div>
 </details>
 
-### 👐 2. Find books with more than 2 available copies, return only book titles and publication year.
+### 👐 2. Find books with more than 2 available copies. Return only book titles and publication year.
 
 <details>
   <summary>Answer</summary>
