@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 $sort and $limit
 
 ## 🔹 $sort → Sorting results
@@ -67,24 +70,54 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
 
 ---
 
-### 👐 Challenge
+## 👐 Challenge
 
 ## 👐 1. After the year 2010, which book has the most number of authors?
 
 <details>
   <summary>Answer</summary>
   <div>
-    ```js
+  There are 2 ways to solve this- 
+  - $project
+  - $addFields
+
+:::info
+Learn [when to use $addFields over $project](https://www.practical-mongodb-aggregations.com/guides/project.html?highlight=%24project#when-to-use-project)
+:::
+
+  <Tabs groupId="aggregations">
+    <TabItem value="mongodb-shell" label="Using $project">
+      ```js
       db.books.aggregate([
+          {
+            $match: { year: {$gt: 2010}}
+          },
+          {
+            $project: {
+              title: 1,
+              authors: 1,
+              numAuthors: {$size: "$authors"},
+              _id: 0
+            }
+          },
+          {
+            $sort: { "numAuthors": -1}
+          },
+          {
+            $limit: 1
+          }
+        ]);
+      ```
+    </TabItem>
+    <TabItem value="atlas" label="Using $addFields">
+    ```js
+    db.books.aggregate([
         {
           $match: { year: {$gt: 2010}}
         },
         {
-          $project: {
-            title: 1,
-            authors: 1,
+          $addFields: {
             numAuthors: {$size: "$authors"},
-            _id: 0
           }
         },
         {
@@ -95,5 +128,7 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
         }
       ]);
     ```
+    </TabItem>
+  </Tabs>
   </div>
 </details>

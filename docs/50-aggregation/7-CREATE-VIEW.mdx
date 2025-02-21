@@ -72,26 +72,13 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 
 ---
 
-## **🔹 Example 2: Maintaining an author summary table**
+## 👐 Challenge
+
+### **🔹 1: Maintaining an Author Summary Table**
 
 👉 We want to create an **author_stats** collection with the total number of books written by each author.
 
-```js
-db.books.aggregate([
-  { $unwind: "$authors" },
-  { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
-  {
-    $merge: {
-      into: "author_stats",
-      on: "_id",
-      whenMatched: "merge",
-      whenNotMatched: "insert",
-    },
-  },
-]);
-```
-
-### **SQL equivalent**
+### Hint: SQL equivalent
 
 ```sql
 INSERT INTO author_stats (authorName, totalBooks)
@@ -100,25 +87,20 @@ GROUP BY authors.name
 ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 ```
 
----
-
-## 👐 Challenge
-
-👐 Create a `top_rated_books` collection that stores books with an average rating above 4.5.
-
 <details>
   <summary>Answer</summary>
-    ```js
+  ```js
     db.books.aggregate([
+      { $unwind: "$authors" },
+      { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
       {
-        $lookup:
-          {
-            from: "reviews",
-            localField: "_id",
-            foreignField: "bookId",
-            as: "reviews"
-          }
-      }
+        $merge: {
+          into: "author_stats",
+          on: "_id",
+          whenMatched: "merge",
+          whenNotMatched: "insert",
+        },
+      },
     ]);
     ```
 </details>
