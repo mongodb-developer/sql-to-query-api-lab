@@ -2,10 +2,10 @@
 
 MongoDB provides two methods for inserting documents into a collection:
 
-- `.insertOne()`: Inserts a single document.
-- `.insertMany()`: Inserts multiple documents at once.
+- `.insertOne()`: Inserts a single document
+- `.insertMany()`: Inserts multiple documents at once
 
-And just like insert MongoDB provides:
+And just like insert, MongoDB provides:
 
 - `.deleteOne()`: Deletes the first matching document.
 - `.deleteMany()`: Deletes all matching documents.
@@ -21,7 +21,7 @@ db.reviews.insertOne({
 });
 ```
 
-### Equivalent SQL Query
+### Equivalent SQL query
 
 ```sql
 INSERT INTO reviews (text, rating, name, bookId)
@@ -55,7 +55,7 @@ db.reviews.deleteOne({
 });
 ```
 
-### Equivalent SQL Query
+### Equivalent SQL query
 
 ```sql
 DELETE FROM reviews WHERE bookId = '0786222727';
