@@ -10,20 +10,20 @@ In SQL, we use `ORDER BY` to sort query results and `LIMIT` to restrict the numb
 - `{ field: -1 }` → **Descending order** (Z → A, largest to smallest)
 - You can sort by multiple fields, just like SQL.
 
-## **Limiting Results**
+## **Limiting results**
 
 - `.limit(n)` restricts the number of documents returned.
 - Used together with `.sort()`, it helps fetch the **top N** results.
 
 ---
 
-### 1: Top 5 Books with the Highest Inventory
+### 1: Top 5 books with the highest inventory
 
 ```js
 db.books.find().sort({ totalInventory: -1 }).limit(5);
 ```
 
-**Equivalent SQL Query:**
+**Equivalent SQL query:**
 
 ```sql
 SELECT * FROM books ORDER BY totalInventory DESC LIMIT 5;
@@ -33,7 +33,7 @@ This fetches the **5 books with the highest stock**.
 
 ---
 
-### 2: Get the title of top 10 Fiction Books by highest page count
+### 2: Get the title of top 10 fiction books by highest page count
 
 ```js
 db.books
@@ -44,11 +44,11 @@ db.books
 
 :::info
 
-Along with the title, we fetched pages as well to ensure that we are getting the right results.
+Along with the title, we fetched pages, as well, to ensure that we are getting the right results.
 
 :::
 
-**Equivalent SQL Query:**
+**Equivalent SQL query:**
 
 ```sql
 SELECT title, pages FROM books WHERE genres='Fiction' ORDER BY pages DESC LIMIT 10;

@@ -1,6 +1,6 @@
 # 👐 WHERE → .find()
 
-Similar to SQL's `WHERE` clause, the `.find()` method in MongoDB retrieves documents from a collection that match a specified query.
+Similar to SQL's `WHERE` clause, the `.find()` method in MongoDB retrieves documents from a collection that matches a specified query.
 
 ## Syntax
 
@@ -8,7 +8,7 @@ Similar to SQL's `WHERE` clause, the `.find()` method in MongoDB retrieves docum
 db.collection.find({ <query> })
 ```
 
-- `<query>`: Specifies conditions to filter documents.
+- `<query>`: Specifies conditions to filter documents
 
 ## Example: Find all books from 2020
 
@@ -16,7 +16,7 @@ db.collection.find({ <query> })
 db.books.find({ year: 2020 });
 ```
 
-### Equivalent SQL Query
+### Equivalent SQL query
 
 ```sql
 SELECT * FROM books WHERE year = 2020;
@@ -26,24 +26,24 @@ SELECT * FROM books WHERE year = 2020;
 
 The `find()` method takes a document as its first argument. This document specifies the filter criteria. You can use a variety of expressions within the filter document:
 
-- **Comparison Operators:** `$eq` (equals), `$ne` (not equals), `$gt` (greater than), `$lt` (less than), `$gte` (greater than or equals), `$lte` (less than or equals), `$in` (in an array), `$nin` (not in an array).
-- **Logical Operators:** `$and`, `$or`, `$not`.
-- **Element Operators:** `$exists` (check for field existence), `$type` (check data type).
-- **Evaluation Operators:** `$regex` (regular expression matching), `$where` (JavaScript code execution).
-- **Geo-spatial Operators:** For location-based queries.
-- **Array Operators:** For querying arrays.
+- **Comparison operators:** `$eq` (equals), `$ne` (not equals), `$gt` (greater than), `$lt` (less than), `$gte` (greater than or equals), `$lte` (less than or equals), `$in` (in an array), `$nin` (not in an array)
+- **Logical operators:** `$and`, `$or`, `$not`
+- **Element operators:** `$exists` (check for field existence), `$type` (check data type)
+- **Evaluation operators:** `$regex` (regular expression matching), `$where` (JavaScript code execution)
+- **Geo-spatial operators:** For location-based queries
+- **Array operators:** For querying arrays
 
 Now, let's utilize a few MongoDB operators and create more sophisticated queries:
 
-### $or and $gt operator
+### $or and $gt operators
 
-Suppose, we want to get all the books written in 2010 OR has more than 200 pages.
+Suppose we want to get all the books written in 2010 OR books that have more than 200 pages.
 
 ```sql
   SELECT * FROM books WHERE year = 2010 OR pages > 200
 ```
 
-Equivalent MongoDB Query:
+Equivalent MongoDB query:
 
 ```js
 db.books.find({
@@ -56,7 +56,7 @@ db.books.find({
 
 ### $and operator
 
-This time, instead of OR let's query using AND:
+This time, instead of OR, let's query using AND:
 
 ```sql
   SELECT * FROM books WHERE year = 2010 AND pages > 200
@@ -75,17 +75,17 @@ db.books.find({
 
 ### Shorthand $and
 
-When we are querying on 2 different fields and want to utilize $and, we can do so by passing a document with all the conditions like this:
+When we are querying on two different fields and want to utilize $and, we can do so by passing a document with all the conditions, like this:
 
 ```js
 db.books.find({ year: 2010, pages: { $gt: 200 } });
 ```
 
-As you can see, we don't have to pass an Array of conditions, MongoDB implicitly considers this as $and.
+As you can see, we don't have to pass an array of conditions. MongoDB implicitly considers this as $and.
 
 ## 👐 Challenge
 
-Now, translate the following into a MongoDB Query.
+Now, translate the following into a MongoDB query.
 
 #### 1. Find all books where `totalInventory` is exactly 5.
 
@@ -109,13 +109,13 @@ Now, translate the following into a MongoDB Query.
   </div>
 </details>
 
-#### 3. Find books in the "Science" genre that has more than 300 pages.
+#### 3. Find books in the "Science" genre that have more than 300 pages.
 
 <details>
   <summary>Answer</summary>
   <div>
     ```js
-      db.books.find({ genre: "Science", pages: {$gt: 300} });
+      db.books.find({ genres: "Science", pages: {$gt: 300} });
     ```
   </div>
 </details>

@@ -47,12 +47,13 @@ db.authors.aggregate([
 ]);
 ```
 
-### **Equivalent SQL Query**
+### **Equivalent SQL query**
 
 ```sql
-SELECT books.*, authors.*
+SELECT author.* , books_written.*
 FROM authors
-LEFT JOIN books ON authors._id = books.author_id;
+LEFT OUTER JOIN author_books ON authors.id = author_books.author_id
+LEFT OUTER JOIN books as books_written ON author_books.book_id = books_written._id;
 ```
 
 :::info
@@ -61,11 +62,11 @@ The result in MongoDB will have an array (`authorDetails`) instead of flat colum
 
 ---
 
-## 🔹 Handling Unwinding ($unwind)
+## 🔹 Handling unwinding ($unwind)
 
 Since `$lookup` produces an **array**, we can flatten it using `$unwind`.
 
-### Example 2: Get Only Book Titles and Single Author Name
+### Example 2: Get only book titles and single author name
 
 ```js
 db.authors.aggregate([
@@ -83,7 +84,7 @@ db.authors.aggregate([
 ```
 
 :::info
-The $lookup operation creates an array within each book document. Using $unwind then flattens this array, resulting in a separate document for every single book - author pair.
+The $lookup operation creates an array within each book document. Using $unwind then flattens this array, resulting in a separate document for every single book-author pair.
 :::
 
 ---
