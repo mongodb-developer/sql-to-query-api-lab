@@ -15,11 +15,11 @@ db.collection.updateOne(
 )
 ```
 
-- `<query>`: Specifies which document to update.
+- `<query>`: Specifies which document to update
 
 - `<update operation>`: Defines modifications using update operators like $set, $inc, etc.
 
-- `<options>`: (Optional) Allows additional configurations like upsert: true.
+- `<options>`: (Optional) Allows additional configurations like upsert: true
 
 ## Example: Update a book
 
@@ -30,7 +30,7 @@ db.reviews.updateOne(
 );
 ```
 
-### Equivalent SQL Query
+### Equivalent SQL query
 
 ```sql
 UPDATE reviews SET rating = 5 WHERE bookId = '0312979509';
@@ -38,7 +38,7 @@ UPDATE reviews SET rating = 5 WHERE bookId = '0312979509';
 
 ## Upsert option
 
-Let's say, we want to update a review in our database from "John" for the book "0312979509" by rating it 5 stars.
+Let's say we want to update a review in our database from "John" for the book "0312979509" by rating it 5 stars.
 
 ```js
 db.reviews.updateOne(
@@ -47,9 +47,9 @@ db.reviews.updateOne(
 );
 ```
 
-Suppose "John" had never posted a review for this book before, the above query won't really do anything.
+Suppose "John" had never posted a review for this book before. The above query won't really do anything.
 In some cases, we may want to store a fresh new review based on the condition and updates mentioned in query.
-To handle such scenarios in MongoDB, we don't have to write additional application code to achieve this, all we have to do is- utilize the `upsert` option.
+To handle such scenarios in MongoDB, we don't have to write additional application code to achieve this. All we have to do is utilize the `upsert` option.
 
 ```js
 db.reviews.updateOne(
@@ -61,7 +61,7 @@ db.reviews.updateOne(
 
 :::info
 
-Executing the above command, will insert a fresh new document in the collection like this:
+Executing the above command will insert a fresh new document in the collection, like this:
 
 ```js
 {
