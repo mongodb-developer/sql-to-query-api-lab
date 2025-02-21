@@ -50,9 +50,10 @@ db.authors.aggregate([
 ### **Equivalent SQL query**
 
 ```sql
-SELECT books.*, authors.*
+SELECT author.* , books_written.*
 FROM authors
-LEFT JOIN books ON authors._id = books.author_id;
+LEFT OUTER JOIN author_books ON authors.id = author_books.author_id
+LEFT OUTER JOIN books as books_written ON author_books.book_id = books_written._id;
 ```
 
 :::info
