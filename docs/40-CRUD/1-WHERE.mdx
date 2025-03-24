@@ -40,7 +40,7 @@ Now, let's utilize a few MongoDB operators and create more sophisticated queries
 Suppose we want to get all the books written in 2010 OR books that have more than 200 pages.
 
 ```sql
-  SELECT * FROM books WHERE year = 2010 OR pages > 200
+  SELECT * FROM books WHERE year = 2010 OR pages > 200;
 ```
 
 Equivalent MongoDB query:
@@ -59,7 +59,7 @@ db.books.find({
 This time, instead of OR, let's query using AND:
 
 ```sql
-  SELECT * FROM books WHERE year = 2010 AND pages > 200
+  SELECT * FROM books WHERE year = 2010 AND pages > 200;
 ```
 
 Equivalent MongoDB query:
