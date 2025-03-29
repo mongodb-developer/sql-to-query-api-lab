@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 🦸 $merge
 
 In MongoDB, the **$merge** stage allows you to **write the results of an aggregation pipeline into a new or existing collection**. This is similar to the concept of "INSERT INTO ... SELECT" or "MERGE INTO" in SQL databases.
@@ -89,18 +92,45 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 
 <details>
   <summary>Answer</summary>
-  ```js
-    db.books.aggregate([
-      { $unwind: "$authors" },
-      { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
+  <div>
+  There are 2 ways to solve this- 
+  - through `books` collection
+  - through `authors` collection
+  <Tabs groupId="aggregations">
+    <TabItem value="books" label="through 'books' collection">
+    ```js
+      db.books.aggregate([
+        { $unwind: "$authors" },
+        { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
+        {
+          $merge: {
+            into: "author_stats",
+            on: "_id",
+            whenMatched: "merge",
+            whenNotMatched: "insert",
+          },
+        },
+      ]);
+    ```
+    </TabItem>
+
+    <TabItem value="authors" label="through 'authors' collection">
+    ```js
+    db.authors.aggregate([
+      { $unwind: "$books" },
+      { $group: { _id: "$name", totalBooks: { $sum: 1 } } },
       {
         $merge: {
           into: "author_stats",
           on: "_id",
           whenMatched: "merge",
-          whenNotMatched: "insert",
-        },
-      },
+          whenNotMatched: "insert"
+        }
+      }
     ]);
     ```
+    </TabItem>
+
+  </Tabs>
+  </div>
 </details>

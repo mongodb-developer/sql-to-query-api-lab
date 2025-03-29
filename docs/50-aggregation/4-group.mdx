@@ -93,7 +93,6 @@ db.books.aggregate([
 
 ## 👐 Example 3: Find the total number of pages published every year.
 
-
 ### **MongoDB query**
 
 ```js
@@ -130,7 +129,6 @@ GROUP BY year;
 
 ## 👐 Challenge
 
-
 ### 👐 1. Find the average book rating of all books
 
 <details>
@@ -157,7 +155,7 @@ GROUP BY year;
   - $group with $sort 
   - $sortByCount
   <Tabs groupId="aggregations">
-    <TabItem value="atlas" label="$group with $sum + $sort">
+    <TabItem value="$group with $sum + $sort" label="$group with $sum + $sort">
     ```js
     db.reviews.aggregate([
       {
@@ -175,7 +173,7 @@ GROUP BY year;
     ```
     </TabItem>
 
-    <TabItem value="mongodb-shell" label="$sortByCount">
+    <TabItem value="sortByCount" label="$sortByCount">
     ```js
     db.reviews.aggregate([
       {
