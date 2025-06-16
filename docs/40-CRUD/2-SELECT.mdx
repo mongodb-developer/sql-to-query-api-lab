@@ -55,7 +55,7 @@ Here:
 ## **Example 3: Using projection along with a query**
 
 ```js
-db.books.find({ genres: "Science" }, { title: 1, totalInventory: 1, _id: 0 });
+db.books.find({ "genre.name": "Science" }, { title: 1, totalInventory: 1, _id: 0 });
 ```
 
 **Equivalent SQL query:**
@@ -90,7 +90,7 @@ Here:
   <summary>Answer</summary>
   <div>
     ```js
-      db.books.find({genres: "History"}, {_id: 0, authors: 0});
+    db.books.find({ "genre.name": "History" }, { _id: 0, authors: 0 });
     ```
   </div>
 </details>

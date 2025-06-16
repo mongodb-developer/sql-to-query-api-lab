@@ -37,7 +37,7 @@ This fetches the **5 books with the highest stock**.
 
 ```js
 db.books
-  .find({ genres: "Fiction" }, { title: 1, pages: 1 })
+  .find({ "genre.name": "Fiction" }, { title: 1, pages: 1 })
   .sort({ pages: -1 })
   .limit(10);
 ```

@@ -137,10 +137,10 @@ GROUP BY year;
     db.reviews.aggregate([
       {
         $group: {
-          _id: "$bookId",
+          _id: "$_id.bookId",
           avgRating: { $avg: "$rating" }
         }
-      },
+      }
     ]);
     ```
 
