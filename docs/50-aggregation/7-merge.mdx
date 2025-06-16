@@ -13,10 +13,10 @@ The `$merge` stage enables you to store aggregation results into a different col
 
 ### **Key features:**
 
-✔️ Inserts new documents if they don’t exist
-✔️ Updates existing documents based on `_id` or a specified field
-✔️ Can replace, merge, or discard duplicate records
-✔️ Useful for **ETL workflows, reporting tables, and maintaining summary data**
+- ✔️ Inserts new documents if they don’t exist
+- ✔️ Updates existing documents based on `_id` or a specified field
+- ✔️ Can replace, merge, or discard duplicate records
+- ✔️ Useful for **ETL workflows, reporting tables, and maintaining summary data**
 
 ---
 
@@ -51,8 +51,8 @@ The `$merge` stage enables you to store aggregation results into a different col
 
 ```js
 db.books.aggregate([
-  { $unwind: "$genres" },
-  { $group: { _id: "$genres", totalBooks: { $sum: 1 } } },
+  { $unwind: "$genre" },
+  { $group: { _id: "$genre.genreId", totalBooks: { $sum: 1 } } },
   {
     $merge: {
       into: "genre_summary",
@@ -99,18 +99,18 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
   <Tabs groupId="aggregations">
     <TabItem value="books" label="through 'books' collection">
     ```js
-      db.books.aggregate([
-        { $unwind: "$authors" },
-        { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
-        {
-          $merge: {
-            into: "author_stats",
-            on: "_id",
-            whenMatched: "merge",
-            whenNotMatched: "insert",
-          },
+    db.books.aggregate([
+      { $unwind: "$authors" },
+      { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
+      {
+        $merge: {
+          into: "author_stats",
+          on: "_id",
+          whenMatched: "merge",
+          whenNotMatched: "insert",
         },
-      ]);
+      },
+    ]);
     ```
     </TabItem>
 

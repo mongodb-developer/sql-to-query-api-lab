@@ -72,7 +72,7 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
 
 ## 👐 Challenge
 
-### 👐 1. After the year 2010, which book has the most number of authors?
+### 👐 1. After the year 2000, which book has the most number of authors?
 
 <details>
   <summary>Answer</summary>
@@ -89,44 +89,51 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
     <TabItem value="mongodb-shell" label="Using $project">
       ```js
       db.books.aggregate([
-          {
-            $match: { year: {$gt: 2010}}
-          },
-          {
-            $project: {
-              title: 1,
-              authors: 1,
-              numAuthors: {$size: "$authors"},
-              _id: 0
-            }
-          },
-          {
-            $sort: { "numAuthors": -1}
-          },
-          {
-            $limit: 1
-          }
-        ]);
-      ```
-    </TabItem>
-    <TabItem value="atlas" label="Using $addFields">
-    ```js
-    db.books.aggregate([
         {
-          $match: { year: {$gt: 2010}}
+          $match: { year: { $gt: 2000 } }
+        },
+        {
+          $match: {
+            authors: { $exists: true },
+          }
         },
         {
           $addFields: {
-            numAuthors: {$size: "$authors"},
+            numAuthors: { $size: "$authors" },
           }
         },
         {
-          $sort: { "numAuthors": -1}
+          $sort: { "numAuthors": -1 }
         },
         {
           $limit: 1
         }
       ]);
+      ```
+    </TabItem>
+    <TabItem value="atlas" label="Using $addFields">
+    ```js
+    db.books.aggregate([
+      {
+        $match: { year: { $gt: 2000 } }
+      },
+      {
+        $match: {
+          authors: { $exists: true },
+        }
+      },
+      {
+        $addFields: {
+          numAuthors: { $size: "$authors" },
+        }
+      },
+      {
+        $sort: { "numAuthors": -1 }
+      },
+      {
+        $limit: 1
+      }
+    ]);
     ```
     </TabItem>
   </Tabs>
