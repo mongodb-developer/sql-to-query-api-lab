@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 UPDATE → updateOne(), updateMany()
 
 To modify existing documents, MongoDB provides:
@@ -82,12 +85,26 @@ Executing the above command will insert a fresh new document in the collection, 
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.updateOne(
-        {"title": "Treasure of the Sun"}, 
-        {$set: {pages: 449}}
-      );
-    ```
-  </div>
+    <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          await books.updateOne(
+            {"title": "Treasure of the Sun"}, 
+            {$set: {pages: 449}}
+          );
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+          <div>
+            ```js
+            db.books.updateOne(
+              {"title": "Treasure of the Sun"}, 
+              {$set: {pages: 449}}
+            );
+            ```
+          </div>
+    </TabItem>
+  </Tabs>
 </details>

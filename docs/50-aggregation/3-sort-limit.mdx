@@ -88,7 +88,7 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
   <Tabs groupId="aggregations">
     <TabItem value="mongodb-shell" label="Using $project">
       ```js
-      db.books.aggregate([
+      await books.aggregate([
         {
           $match: { year: { $gt: 2000 } }
         },
@@ -108,12 +108,12 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         {
           $limit: 1
         }
-      ]);
+      ]).toArray();
       ```
     </TabItem>
     <TabItem value="atlas" label="Using $addFields">
     ```js
-    db.books.aggregate([
+    await books.aggregate([
       {
         $match: { year: { $gt: 2000 } }
       },
@@ -133,7 +133,7 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
       {
         $limit: 1
       }
-    ]);
+    ]).toArray();
     ```
     </TabItem>
   </Tabs>

@@ -134,14 +134,14 @@ GROUP BY year;
 <details>
   <summary>Answer</summary>
     ```js
-    db.reviews.aggregate([
+    await reviews.aggregate([
       {
         $group: {
           _id: "$_id.bookId",
           avgRating: { $avg: "$rating" }
         }
       }
-    ]);
+    ]).toArray();
     ```
 
 </details>
@@ -157,7 +157,7 @@ GROUP BY year;
   <Tabs groupId="aggregations">
     <TabItem value="$group with $sum + $sort" label="$group with $sum + $sort">
     ```js
-    db.reviews.aggregate([
+    await reviews.aggregate([
       {
         $group: {
           _id: "$name",
@@ -169,17 +169,17 @@ GROUP BY year;
           totalReviews: -1,
         },
       },
-    ]);
+    ]).toArray();
     ```
     </TabItem>
 
     <TabItem value="sortByCount" label="$sortByCount">
     ```js
-    db.reviews.aggregate([
+    await reviews.aggregate([
       {
         $sortByCount: "$name",
       },
-    ]);
+    ]).toArray();
     ```
     </TabItem>
 

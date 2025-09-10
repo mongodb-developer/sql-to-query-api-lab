@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 INSERT → insertOne() & DELETE → deleteOne()
 
 MongoDB provides two methods for inserting documents into a collection:
@@ -67,45 +70,94 @@ DELETE FROM reviews WHERE bookId = '0786222727';
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.reviews.insertMany([
-        {
-          text: "Thrilling end.",
-          rating: 4,
-          name: "Mark",
-          bookId: "0786222727",
-        },
-        {
-          text: "Must read!",
-          rating: 5,
-          name: "Raj",
-          bookId: "0786222727",
-        },
-        {
-          text: "Very expensive",
-          rating: 3,
-          name: "Yun",
-          bookId: "0786222727",
-        },
-        {
-          text: "Extremely satisfied with the storyline!",
-          rating: 5,
-          name: "Lisa",
-          bookId: "0786222727",
-        }
-      ]);
-    ```
-  </div>
+    <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          const reviews = db.collection("reviews");
+          await reviews.insertMany([
+            {
+              text: "Thrilling end.",
+              rating: 4,
+              name: "Mark",
+              bookId: "0786222727",
+            },
+            {
+              text: "Must read!",
+              rating: 5,
+              name: "Raj",
+              bookId: "0786222727",
+            },
+            {
+              text: "Very expensive",
+              rating: 3,
+              name: "Yun",
+              bookId: "0786222727",
+            },
+            {
+              text: "Extremely satisfied with the storyline!",
+              rating: 5,
+              name: "Lisa",
+              bookId: "0786222727",
+            }
+          ]);
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+          <div>
+            ```js
+            db.reviews.insertMany([
+              {
+                text: "Thrilling end.",
+                rating: 4,
+                name: "Mark",
+                bookId: "0786222727",
+              },
+              {
+                text: "Must read!",
+                rating: 5,
+                name: "Raj",
+                bookId: "0786222727",
+              },
+              {
+                text: "Very expensive",
+                rating: 3,
+                name: "Yun",
+                bookId: "0786222727",
+              },
+              {
+                text: "Extremely satisfied with the storyline!",
+                rating: 5,
+                name: "Lisa",
+                bookId: "0786222727",
+              }
+            ]);
+            ```
+          </div>
+    </TabItem>
+  </Tabs>
 </details>
 
 ### 👐 2. Delete all the reviews for `bookId` "0786222727" through a single command.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.reviews.deleteMany({"bookId": "0786222727"})
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          const reviews = db.collection("reviews");
+          await reviews.deleteMany({"bookId": "0786222727"})
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+          <div>
+            ```js
+            db.reviews.deleteMany({"bookId": "0786222727"})
+            ```
+          </div>
+    </TabItem>
+  </Tabs>
 </details>

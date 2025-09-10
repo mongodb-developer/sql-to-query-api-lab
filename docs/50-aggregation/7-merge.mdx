@@ -99,7 +99,7 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
   <Tabs groupId="aggregations">
     <TabItem value="books" label="through 'books' collection">
     ```js
-    db.books.aggregate([
+    await books.aggregate([
       { $unwind: "$authors" },
       { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
       {
@@ -110,13 +110,14 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
           whenNotMatched: "insert",
         },
       },
-    ]);
+    ]).toArray();
     ```
     </TabItem>
 
     <TabItem value="authors" label="through 'authors' collection">
     ```js
-    db.authors.aggregate([
+    const authors = db.collection("authors");
+    await authors.aggregate([
       { $unwind: "$books" },
       { $group: { _id: "$name", totalBooks: { $sum: 1 } } },
       {
@@ -127,7 +128,7 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
           whenNotMatched: "insert"
         }
       }
-    ]);
+    ]).toArray();
     ```
     </TabItem>
 
