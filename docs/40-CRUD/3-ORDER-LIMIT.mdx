@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 ORDER BY → .sort() & LIMIT → .limit()
 
 In SQL, we use `ORDER BY` to sort query results and `LIMIT` to restrict the number of returned rows. MongoDB provides the `.sort()` and `.limit()` methods to achieve the same.
@@ -64,9 +67,24 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.find({}).sort({title: 1}).limit(10)
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          const cursor = await books.find({}).sort({title: 1}).limit(10);
+
+          await cursor.forEach((b) => {
+              console.log(b);
+          });
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+      <div>
+        ```js
+        db.books.find({}).sort({title: 1}).limit(10)
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
 </details>

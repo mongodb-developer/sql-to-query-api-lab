@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 SELECT → projection
 
 In SQL, the `SELECT` statement allows us to specify which columns to retrieve from a table. Similarly, in MongoDB, we use **projection** in the `.find()` method to control which fields to include (or exclude) in query results.
@@ -77,20 +80,51 @@ Here:
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.find({}, {title: 1, _id: 0});
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+        const cursor = await books.find({}).project( {title: 1, _id: 0} ).limit(10);
+
+        await cursor.forEach((b) => {
+            console.log(b);
+        });      
+        ```
+      </div>
+
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+      <div>
+        ```js
+        db.books.find({}, {title: 1, _id: 0});
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
 </details>
 
 ### 👐 2. Retrieve all fields except `_id` and `authors` for books in the "History" genre.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-    db.books.find({ "genre.name": "History" }, { _id: 0, authors: 0 });
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          const cursor = await books.find({ "genre.name": "History" }).project( { _id: 0, authors: 0 } ).limit(10);
+
+          await cursor.forEach((b) => {
+              console.log(b);
+          });
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+        <div>
+          ```js
+          db.books.find({ "genre.name": "History" }, { _id: 0, authors: 0 });
+          ```
+        </div>
+    </TabItem>
+  </Tabs>
 </details>

@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 $lookup (JOINs in MongoDB)
 
 `$lookup` in MongoDB serves a similar purpose to **JOINs** in SQL. It enables combining data from multiple collections by performing an equality match between fields.
@@ -95,17 +98,43 @@ The $lookup operation creates an array within each book document. Using $unwind 
 
 <details>
   <summary>Answer</summary>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+         await books.aggregate([
+          {
+            $lookup:
+            {
+              from: "reviews",
+              localField: "_id",
+              foreignField: "_id.bookId",
+              as: "reviews"
+            }
+          }
+        ]).toArray();
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+      <div>
+        ```js
+         db.books.aggregate([
+          {
+            $lookup:
+            {
+              from: "reviews",
+              localField: "_id",
+              foreignField: "_id.bookId",
+              as: "reviews"
+            }
+          }
+        ]);
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
     ```js
-    db.books.aggregate([
-      {
-        $lookup:
-        {
-          from: "reviews",
-          localField: "_id",
-          foreignField: "_id.bookId",
-          as: "reviews"
-        }
-      }
-    ]);
+   
     ```
 </details>

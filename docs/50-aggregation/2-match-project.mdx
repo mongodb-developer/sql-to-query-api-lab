@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 $match and $project
 
 MongoDB’s **Aggregation Framework** allows for powerful data transformations and analysis. The **$match**, **$project**, and **$sort** stages are fundamental building blocks of an aggregation pipeline.
@@ -96,25 +99,52 @@ db.books.aggregate([
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.aggregate([
-        { $match: {available: {$gt: 2}}}
-      ]);
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          await books.aggregate([
+            { $match: {available: {$gt: 2}}}
+          ]).toArray();
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+          <div>
+            ```js
+            db.books.aggregate([
+              { $match: {available: {$gt: 2}}}
+            ]);
+            ```
+          </div>
+    </TabItem>
+  </Tabs>
 </details>
 
 ### 👐 2. Find books with more than 2 available copies. Return only book titles and publication year.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.aggregate([
-        { $match: {available: {$gt: 2}}},
-        { $project: {title: 1, year: 1, _id: 0}}
-      ]);
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          await books.aggregate([
+            { $match: {available: {$gt: 2}}},
+            { $project: {title: 1, year: 1, _id: 0}}
+          ]).toArray();
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+      <div>
+        ```js
+        db.books.aggregate([
+          { $match: {available: {$gt: 2}}},
+          { $project: {title: 1, year: 1, _id: 0}}
+        ]);
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
 </details>

@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # 👐 WHERE → .find()
 
 Similar to SQL's `WHERE` clause, the `.find()` method in MongoDB retrieves documents from a collection that matches a specified query.
@@ -91,31 +94,77 @@ Now, translate the following into a MongoDB query.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.find({ totalInventory: 5 });
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+        const cursor = await books.find({ totalInventory: 5 });
+
+        await cursor.forEach((b) => {
+            console.log(b);
+        });
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+        <div>
+          ```js
+          db.books.find({ totalInventory: 5 });
+          ```
+        </div>
+    </TabItem>
+  </Tabs>
+
 </details>
 
 #### 2. Find all books with more than 300 pages.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.find({ pages: {$gt: 300} });
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          const cursor = await books.find({ pages: {$gt: 300} });
+
+          await cursor.forEach((b) => {
+              console.log(b);
+          });
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+        <div>
+          ```js
+          db.books.find({ pages: {$gt: 300} });
+          ```
+        </div>
+    </TabItem>
+  </Tabs>
 </details>
 
 #### 3. Find books in the `Science` genre that are more than 300 pages long.
 
 <details>
   <summary>Answer</summary>
-  <div>
-    ```js
-      db.books.find({ "genre.name": "Science", pages: {$gt: 300} });
-    ```
-  </div>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+        const cursor = await books.find( { "genre.name": "Science", pages: {$gt: 300} } );
+
+        await cursor.forEach((b) => {
+            console.log(b);
+        });
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+        <div>
+          ```js
+          db.books.find({ "genre.name": "Science", pages: {$gt: 300} });
+          ```
+        </div>
+    </TabItem>
+  </Tabs>
 </details>
