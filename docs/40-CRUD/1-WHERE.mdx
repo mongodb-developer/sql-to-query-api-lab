@@ -203,10 +203,10 @@ Now, translate the following into a MongoDB query.
     <TabItem value="csharp" label="C#">
       <div>
         ```csharp
-        var booksWithGenreRomanceAndMoreThan300Pages = Builders<Book>.Filter.And(Builders<Book>.Filter.AnyEq(b => b.Genres, "Romance"), Builders<Book>.Filter.Gt(b => b.Pages, 300));
+        var booksWithGenreScienceAndMoreThan300Pages = Builders<Book>.Filter.And(Builders<Book>.Filter.AnyEq(b => b.Genres, "Science"), Builders<Book>.Filter.Gt(b => b.Pages, 300));
 
         var filteredBooks = booksCollection
-            .Find(booksWithGenreRomanceAndMoreThan300Pages)
+            .Find(booksWithGenreScienceAndMoreThan300Pages)
             .ToList();
 
         foreach (var book in filteredBooks)
