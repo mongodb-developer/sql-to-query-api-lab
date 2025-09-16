@@ -58,7 +58,7 @@ Here:
 ## **Example 3: Using projection along with a query**
 
 ```js
-db.books.find({ "genre.name": "Science" }, { title: 1, totalInventory: 1, _id: 0 });
+db.books.find({ "genres": "Science" }, { title: 1, totalInventory: 1, _id: 0 });
 ```
 
 **Equivalent SQL query:**
@@ -111,7 +111,7 @@ Here:
     <TabItem value="javascript" label="JavaScript">
       <div>
           ```js
-          const cursor = await books.find({ "genre.name": "History" }).project( { _id: 0, authors: 0 } ).limit(10);
+          const cursor = await books.find({ "genres": "History" }).project( { _id: 0, authors: 0 } ).limit(10);
 
           await cursor.forEach((b) => {
               console.log(b);
@@ -122,7 +122,7 @@ Here:
     <TabItem value="mongosh" label="mongosh">
         <div>
           ```js
-          db.books.find({ "genre.name": "History" }, { _id: 0, authors: 0 });
+          db.books.find({ "genres": "History" }, { _id: 0, authors: 0 });
           ```
         </div>
     </TabItem>

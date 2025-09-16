@@ -47,12 +47,12 @@ The `$merge` stage enables you to store aggregation results into a different col
 
 ## **🔹 Example 1: Creating a summary collection**
 
-👉 Suppose we want to generate a collection that contains the **total number of books per genre**.
+👉 Suppose we want to generate a collection that contains the **total number of books per genre**. Using mongosh:
 
 ```js
 db.books.aggregate([
-  { $unwind: "$genre" },
-  { $group: { _id: "$genre.genreId", totalBooks: { $sum: 1 } } },
+  { $unwind: "$genres" },
+  { $group: { _id: "$genres", totalBooks: { $sum: 1 } } },
   {
     $merge: {
       into: "genre_summary",
