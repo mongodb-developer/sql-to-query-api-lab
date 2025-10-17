@@ -51,24 +51,20 @@ const utmParams = `utm_campaign=devrel&utm_source=workshop&utm_medium=cta&utm_co
 
 const footerLinks = [
   {
-    label: "Try MongoDB Atlas",
+    label: 'Try MongoDB Atlas',
     href: `https://www.mongodb.com/try?${utmParams}`,
-  },
-  {
-    label: "Forums",
-    href: `https://www.mongodb.com/community/forums/?${utmParams}`,
-  },
-  {
-    label: "Developer Center",
-    href: `https://www.mongodb.com/developer/?${utmParams}`,
-  },
-  {
-    label: "MongoDB University",
-    href: `https://learn.mongodb.com/?${utmParams}`,
-  },
-  {
+  }, {
+    label: 'Forums',
+    href: `https://www.mongodb.com/community/forums?${utmParams}`,
+  }, {
+    label: 'Skill Badges',
+    href: `https://learn.mongodb.com/skills?team=devrel&${utmParams}`,
+  }, {
     href: `https://github.com/${organizationName}/${workshopName}`,
-    label: "This lab in GitHub",
+    label: "This lab in GitHub"
+  }, {
+    label: `© ${new Date().getFullYear()} MongoDB, Inc.`,
+    href: "#",
   },
 ];
 
@@ -151,8 +147,7 @@ const config = {
       },
       footer: {
         style: "dark",
-        links: footerLinks,
-        copyright: `© ${new Date().getFullYear()} MongoDB, Inc.`,
+        links: footerLinks
       },
       prism: {
         theme: lightCodeTheme,
