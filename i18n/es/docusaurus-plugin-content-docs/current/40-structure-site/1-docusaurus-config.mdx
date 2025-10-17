@@ -47,8 +47,8 @@ const featureList = [
 
 // UTM stuff
 
-const utmAdvocateName = `diego.freniche`;
-const utmWorkshopName = 'docusaurus_workshop'
+const utmAdvocateName = 'sourabh.bagrecha';
+const utmWorkshopName = 'sql.query.api';
 
 const utmParams = `utm_campaign=devrel&utm_source=workshop&utm_medium=cta&utm_content=${utmWorkshopName}&utm_term=${utmAdvocateName}`;
 
@@ -61,15 +61,11 @@ const footerLinks = [
   },
   {
     label: 'Forums',
-    href: `https://www.mongodb.com/community/forums/${utmParams}`,
+    href: `https://www.mongodb.com/community/forums?${utmParams}`,
   },
   {
-    label: 'Developer Center',
-    href: `https://www.mongodb.com/developer/${utmParams}`,
-  },
-  {
-    label: 'MongoDB University',
-    href: `https://learn.mongodb.com/${utmParams}`,
+    label: 'Skill Badges',
+    href: `https://learn.mongodb.com/skills?team=devrel&${utmParams}`,
   },
   {
     label: `© ${new Date().getFullYear()} MongoDB, Inc.`,
