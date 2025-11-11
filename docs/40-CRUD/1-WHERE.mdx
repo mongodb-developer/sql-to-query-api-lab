@@ -185,7 +185,7 @@ Now, translate the following into a MongoDB query.
     <TabItem value="javascript" label="JavaScript">
       <div>
         ```js
-        const cursor = await books.find( { "genre.name": "Science", pages: {$gt: 300} } );
+        const cursor = await books.find( { "genres": "Science", pages: {$gt: 300} } );
 
         await cursor.forEach((b) => {
             console.log(b);
@@ -196,7 +196,7 @@ Now, translate the following into a MongoDB query.
     <TabItem value="mongosh" label="mongosh">
         <div>
           ```js
-          db.books.find({ "genre.name": "Science", pages: {$gt: 300} });
+          db.books.find({ "genres": "Science", pages: {$gt: 300} });
           ```
         </div>
     </TabItem>
