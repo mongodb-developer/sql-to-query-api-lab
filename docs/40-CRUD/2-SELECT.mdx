@@ -88,7 +88,7 @@ Here:
 
         await cursor.forEach((b) => {
             console.log(b);
-        });      
+        });
         ```
       </div>
 
@@ -97,6 +97,14 @@ Here:
       <div>
         ```js
         db.books.find({}, {title: 1, _id: 0});
+        ```
+      </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+        var projection = Builders<Book>.Projection.Include(b => b.Title).Exclude(b => b.Id);
+        booksCollection.Find(b => true).Project<Book>(projection);
         ```
       </div>
     </TabItem>
@@ -125,6 +133,14 @@ Here:
           db.books.find({ "genre.name": "History" }, { _id: 0, authors: 0 });
           ```
         </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+        var projection = Builders<Book>.Projection.Exclude(b => b.Authors).Exclude(b => b.Id);
+        booksCollection.Find(b => true).Project<Book>(projection);
+        ```
+      </div>
     </TabItem>
   </Tabs>
 </details>
