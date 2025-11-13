@@ -118,6 +118,29 @@ db.books.aggregate([
             ```
           </div>
     </TabItem>
+     <TabItem value="csharp" label="C#">
+        <div>
+        ```csharp
+         var pipeline = booksCollection.Aggregate()
+    .Match(b => b.Available > 2);
+
+
+      var plentifulBooks = pipeline.ToList();
+
+      if(results != null)
+      {
+          foreach(var book in plentifulBooks)
+          {
+              Console.WriteLine($"Title: {book.Title} - Available: {book.Available}");
+          }
+      }
+      else
+      {
+        Console.WriteLine("Empty Collection");
+      }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -143,6 +166,29 @@ db.books.aggregate([
           { $match: {available: {$gt: 2}}},
           { $project: {title: 1, year: 1, _id: 0}}
         ]);
+        ```
+      </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+        <div>
+        ```csharp
+        var pipeline = booksCollection.Aggregate()
+    .Match(b => b.Available > 2)
+    .Project(b => new { b.Title, b.Year });
+
+      var plentifulBooks = pipeline.ToList();
+
+      if(results != null)
+      {
+          foreach(var book in plentifulBooks)
+          {
+              Console.WriteLine($"Title: {book.Title} - Year: {book.Year}");
+          }
+      }
+      else
+      {
+        Console.WriteLine("Empty Collection");
+      }
         ```
       </div>
     </TabItem>

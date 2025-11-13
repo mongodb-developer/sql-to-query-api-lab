@@ -90,11 +90,11 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
       <div>
         ```csharp
         var projection = Builders<Book>.Projection.Include(b => b.Title).Include(b => b.Pages);
-        var descendingPagesSort = Builders<Book>.Sort.Ascending("title");
+        var ascendingTitleSort = Builders<Book>.Sort.Ascending("title");
 
         List<Book> sortedBooksLimitedToTen = booksCollection.Find(b => true) // Empty filter to find all books
         .Project<Book>(projection)
-        .Sort(descendingPagesSort)
+        .Sort(ascendingTitleSort)
         .Limit(10).ToList();
         ```
       </div>

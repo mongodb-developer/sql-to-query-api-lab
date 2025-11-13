@@ -137,8 +137,23 @@ Here:
      <TabItem value="csharp" label="C#">
       <div>
         ```csharp
-        var projection = Builders<Book>.Projection.Exclude(b => b.Authors).Exclude(b => b.Id);
-        booksCollection.Find(b => true).Project<Book>(projection);
+        var historyGenre = Builders<Book>.Filter.AnyEq(b => b.Genres, "History");
+var projection = Builders<Book>.Projection.Exclude(b => b.Id).Exclude(b => b.Authors);
+
+List<Book> sortedBooks = booksCollection.Find(historyGenre)
+  .Project<Book>(projection).ToList();
+
+  if(sortedBooks != null)
+  {
+      foreach(var book in sortedBooks)
+      {
+        Console.WriteLine(book.ToJson()); // Shows the entire BSON document as JSON to show that some fields are null because they are not returned due to the projection
+      }
+  }
+  else
+  {
+      Console.WriteLine("Empty Collection");
+  }
         ```
       </div>
     </TabItem>
