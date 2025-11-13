@@ -88,27 +88,30 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
   <Tabs groupId="aggregations">
     <TabItem value="mongodb-shell" label="Using $project">
       ```js
-      await books.aggregate([
-        {
-          $match: { year: { $gt: 2000 } }
-        },
-        {
-          $match: {
-            authors: { $exists: true },
-          }
-        },
-        {
-          $addFields: {
-            numAuthors: { $size: "$authors" },
-          }
-        },
-        {
-          $sort: { "numAuthors": -1 }
-        },
-        {
-          $limit: 1
-        }
-      ]).toArray();
+     await books.aggregate([
+  {
+    $match: { year: { $gt: 2000 } }
+  },
+  {
+    $match: {
+      authors: { $exists: true }
+    }
+  },
+  {
+    $project: {
+      title: 1,
+      year: 1,
+      authors: 1,
+      numAuthors: { $size: "$authors" }
+    }
+  },
+  {
+    $sort: { numAuthors: -1 }
+  },
+  {
+    $limit: 1
+  }
+]).toArray();
       ```
     </TabItem>
     <TabItem value="atlas" label="Using $addFields">
