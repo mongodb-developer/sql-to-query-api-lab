@@ -90,7 +90,7 @@ Executing the above command will insert a fresh new document in the collection, 
       <div>
           ```js
           await books.updateOne(
-            {"title": "Treasure of the Sun"}, 
+            {"title": "Treasure of the Sun"},
             {$set: {pages: 449}}
           );
           ```
@@ -100,9 +100,22 @@ Executing the above command will insert a fresh new document in the collection, 
           <div>
             ```js
             db.books.updateOne(
-              {"title": "Treasure of the Sun"}, 
+              {"title": "Treasure of the Sun"},
               {$set: {pages: 449}}
             );
+            ```
+          </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+          <div>
+            ```csharp
+            var filter = Builders<Book>.Filter.Eq(b => b.Title, "Treasure of the Sun");
+            var update = Builders<Book>.Update.Set(b => b.Pages, 449);
+
+            var result = booksCollection.UpdateOne(filter, update);
+
+            // Optionally inspect the outcome
+            Console.WriteLine($"Matched: {result.MatchedCount}, Modified: {result.ModifiedCount}");
             ```
           </div>
     </TabItem>
