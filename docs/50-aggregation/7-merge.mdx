@@ -141,12 +141,21 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         <TabItem value="books" label="through books collection">
           <div>
           ```csharp
-          var pipeline = booksCollection.Aggregate()
-            .AppendStage<BsonDocument>(new BsonDocument{"$unwind", "$authors"})
-            .AppendStage<BsonDocument>(new BsonDocument{"$group", new BsonDocument{{"_id","$authors.name"},{"totalBooks", new BsonDocument{"$sum", 1}}}})
-            .AppendStage<BsonDocument>(new BsonDocument{"$merge", new BsonDocument{{"into","author_stats"},{"on","_id"},{"whenMatched","merge"},{"whenNotMatched","insert"}}});
-
-          var result = pipeline.ToList();
+          var result = await booksCollection.Aggregate()
+            .Unwind("authors")
+            .Group(new BsonDocument
+              {
+                  { "_id", "$authors.name" },
+                  { "totalBooks", new BsonDocument("$sum", 1) }
+              })
+            .AppendStage<BsonDocument>(new BsonDocument("$merge", new BsonDocument
+            {
+                { "into", "author_stats" },
+                { "on", "_id" },
+                { "whenMatched", "merge" },
+                { "whenNotMatched", "insert" }
+            }))
+            .ToListAsync();
           ```
           </div>
         </TabItem>
