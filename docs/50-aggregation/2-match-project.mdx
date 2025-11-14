@@ -127,7 +127,7 @@ db.books.aggregate([
 
       var plentifulBooks = pipeline.ToList();
 
-      if(results != null)
+      if(plentifulBooks != null)
       {
           foreach(var book in plentifulBooks)
           {
@@ -178,7 +178,7 @@ db.books.aggregate([
 
       var plentifulBooks = pipeline.ToList();
 
-      if(results != null)
+      if(plentifulBooks != null)
       {
           foreach(var book in plentifulBooks)
           {
