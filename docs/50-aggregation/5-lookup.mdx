@@ -137,12 +137,12 @@ The $lookup operation creates an array within each book document. Using $unwind 
       <div>
       ```csharp
       var pipeline = booksCollection.Aggregate()
-    .Lookup<Book, Review, Book>(
-        foreignCollection: reviewsCollection,
-        localField: b => b.Id,
-        foreignField: r => r.BookId,
-        @as: b => b.Reviews
-    );
+        .Lookup<Book, Review, Book>(
+          foreignCollection: reviewsCollection,
+          localField: b => b.Id,
+          foreignField: r => r.BookId,
+          @as: b => b.Reviews
+        );
 
     var results = pipeline.ToList();
     ```
