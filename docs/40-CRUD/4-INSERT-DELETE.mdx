@@ -135,7 +135,22 @@ DELETE FROM reviews WHERE bookId = '0786222727';
             ]);
             ```
           </div>
-    </TabItem>
+      </TabItem>
+      <TabItem value="csharp" label="C#">
+          <div>
+            ```csharp
+           var newReviews = new[]
+            {
+                new Review { Text = "Thrilling end.", Rating = 4, Name = "Mark", BookId = "0786222727" },
+                new Review { Text = "Must read!", Rating = 5, Name = "Raj",  BookId = "0786222727" },
+                new Review { Text = "Very expensive", Rating = 3, Name = "Yun",  BookId = "0786222727" },
+                new Review { Text = "Extremely satisfied with the storyline!", Rating = 5, Name = "Lisa", BookId = "0786222727" }
+            };
+
+            reviewsCollection.InsertMany(newReviews);
+            ```
+          </div>
+      </TabItem>
   </Tabs>
 </details>
 
@@ -158,6 +173,17 @@ DELETE FROM reviews WHERE bookId = '0786222727';
             db.reviews.deleteMany({"bookId": "0786222727"})
             ```
           </div>
+    </TabItem>
+    <TabItem value="csharp" label="C#">
+      <div>
+      ```csharp
+      IMongoCollection<Review> reviewsCollection = db.GetCollection<Review>("reviews");
+
+      var deletionResult = reviewsCollection.DeleteMany(r => r.BookId == "0786222727");
+
+      Console.WriteLine($"{deletionResult.DeletedCount} review(s) deleted.");
+      ```
+      </div>
     </TabItem>
   </Tabs>
 </details>

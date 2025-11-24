@@ -88,7 +88,7 @@ Here:
 
         await cursor.forEach((b) => {
             console.log(b);
-        });      
+        });
         ```
       </div>
 
@@ -97,6 +97,27 @@ Here:
       <div>
         ```js
         db.books.find({}, {title: 1, _id: 0});
+        ```
+      </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+       var projection = Builders<Book>.Projection.Include(b => b.Title).Exclude(b => b.Id);
+
+      var booksWithOnlyTitle = booksCollection.Find(b => true).Project<Book>(projection).Limit(50).ToList();
+
+      if(booksWithOnlyTitle != null)
+      {
+          foreach(var book in booksWithOnlyTitle)
+          {
+            Console.WriteLine(book.ToJson()); // Shows the entire BSON document as JSON to show that some fields are null because they are not returned due to the projection
+          }
+      }
+      else
+      {
+          Console.WriteLine("Empty Collection");
+      }
         ```
       </div>
     </TabItem>
@@ -125,6 +146,29 @@ Here:
           db.books.find({ "genres": "History" }, { _id: 0, authors: 0 });
           ```
         </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+          var historyGenre = Builders<Book>.Filter.AnyEq(b => b.Genres, "History");
+          var projection = Builders<Book>.Projection.Exclude(b => b.Id).Exclude(b => b.Authors);
+
+          List<Book> sortedBooks = booksCollection.Find(historyGenre)
+            .Project<Book>(projection).Limit(50).ToList();
+
+          if(sortedBooks != null)
+          {
+              foreach(var book in sortedBooks)
+              {
+                Console.WriteLine(book.ToJson()); // Shows the entire BSON document as JSON to show that some fields are null because they are not returned due to the projection
+              }
+          }
+          else
+          {
+            Console.WriteLine("Empty Collection");
+          }
+```
+      </div>
     </TabItem>
   </Tabs>
 </details>

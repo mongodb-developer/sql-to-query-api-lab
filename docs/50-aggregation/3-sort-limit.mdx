@@ -77,7 +77,7 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
 <details>
   <summary>Answer</summary>
   <div>
-  There are 2 ways to solve this- 
+  There are 2 ways to solve this-
   - $project
   - $addFields
 
@@ -85,59 +85,106 @@ SELECT * FROM books ORDER BY timestamp DESC LIMIT 5;
 Learn [when to use $addFields over $project](https://www.practical-mongodb-aggregations.com/guides/project.html?highlight=%24project#when-to-use-project)
 :::
 
-  <Tabs groupId="aggregations">
-    <TabItem value="mongodb-shell" label="Using $project">
-      ```js
-     await books.aggregate([
-  {
-    $match: { year: { $gt: 2000 } }
-  },
-  {
-    $match: {
-      authors: { $exists: true }
-    }
-  },
-  {
-    $project: {
-      title: 1,
-      year: 1,
-      authors: 1,
-      numAuthors: { $size: "$authors" }
-    }
-  },
-  {
-    $sort: { numAuthors: -1 }
-  },
-  {
-    $limit: 1
-  }
-]).toArray();
-      ```
+  <Tabs groupId="aggregations" defaultValue="js">
+    <TabItem value="js" label="JavaScript">
+      <Tabs groupId="js-inner" defaultValue="project">
+        <TabItem value="project" label="Using $project">
+          ```js
+          await books.aggregate([
+          {
+            $match: { year: { $gt: 2000 } }
+          },
+          {
+            $match: {
+              authors: { $exists: true }
+            }
+          },
+          {
+            $project: {
+              title: 1,
+              year: 1,
+              authors: 1,
+              numAuthors: { $size: "$authors" }
+            }
+          },
+          {
+            $sort: { numAuthors: -1 }
+          },
+          {
+            $limit: 1
+          }
+        ]).toArray();
+          ```
+        </TabItem>
+
+        <TabItem value="addFields" label="Using $addFields">
+          ```js
+          await books.aggregate([
+            {
+              $match: { year: { $gt: 2000 } }
+            },
+            {
+              $match: {
+                authors: { $exists: true },
+              }
+            },
+            {
+              $addFields: {
+                numAuthors: { $size: "$authors" },
+              }
+            },
+            {
+              $sort: { "numAuthors": -1 }
+            },
+            {
+              $limit: 1
+            }
+          ]).toArray();
+          ```
+        </TabItem>
+      </Tabs>
     </TabItem>
-    <TabItem value="atlas" label="Using $addFields">
-    ```js
-    await books.aggregate([
-      {
-        $match: { year: { $gt: 2000 } }
-      },
-      {
-        $match: {
-          authors: { $exists: true },
-        }
-      },
-      {
-        $addFields: {
-          numAuthors: { $size: "$authors" },
-        }
-      },
-      {
-        $sort: { "numAuthors": -1 }
-      },
-      {
-        $limit: 1
-      }
-    ]).toArray();
-    ```
+
+    <TabItem value="csharp" label="C#">
+      <Tabs groupId="aggregations-csharp" defaultValue="addFields">
+        <TabItem value="project" label="Using $project">
+          <div>
+          ```csharp
+          var pipeline = booksCollection.Aggregate()
+            .Match(b => b.Year > 2000)
+            .Match(Builders<Book>.Filter.Exists(b => b.Authors))
+            .Project(new BsonDocument
+            {
+                { "title", 1 },
+                { "year", 1 },
+                { "authors", 1 },
+                { "numAuthors", new BsonDocument("$size", "$authors") }
+            })
+            .Sort(new BsonDocument("numAuthors", -1))
+            .Limit(1);
+
+          var mostAuthors = await pipeline.ToListAsync();
+        ```
+          </div>
+        </TabItem>
+
+        <TabItem value="addFields" label="Using $addFields">
+          <div>
+          ```csharp
+            var pipeline = booksCollection.Aggregate()
+              .Match(b => b.Year > 2000)
+              .Match(Builders<Book>.Filter.Exists(b => b.Authors))
+              .AppendStage<BsonDocument>(
+              new BsonDocument("$addFields", new BsonDocument("numAuthors", new BsonDocument("$size", "$authors")))
+            )
+              .Sort(new BsonDocument("numAuthors", -1))
+              .Limit(1);
+
+            var mostAuthors = pipeline.ToList();
+        ```
+          </div>
+        </TabItem>
+      </Tabs>
     </TabItem>
   </Tabs>
   </div>
