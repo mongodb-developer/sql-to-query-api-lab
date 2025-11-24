@@ -107,9 +107,9 @@ Here:
 
       var booksWithOnlyTitle = booksCollection.Find(b => true).Project<Book>(projection).Limit(50).ToList();
 
-      if(booksWithOnlyTitle != null)
+      if (booksWithOnlyTitle != null)
       {
-          foreach(var book in booksWithOnlyTitle)
+          foreach (var book in booksWithOnlyTitle)
           {
             Console.WriteLine(book.ToJson()); // Shows the entire BSON document as JSON to show that some fields are null because they are not returned due to the projection
           }
@@ -156,9 +156,9 @@ Here:
           List<Book> sortedBooks = booksCollection.Find(historyGenre)
             .Project<Book>(projection).Limit(50).ToList();
 
-          if(sortedBooks != null)
+          if (sortedBooks != null)
           {
-              foreach(var book in sortedBooks)
+              foreach (var book in sortedBooks)
               {
                 Console.WriteLine(book.ToJson()); // Shows the entire BSON document as JSON to show that some fields are null because they are not returned due to the projection
               }
