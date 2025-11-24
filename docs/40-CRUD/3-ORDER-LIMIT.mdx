@@ -86,5 +86,15 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
         ```
       </div>
     </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+          ```python
+          books_sorted_by_title = books.find({}).sort("title", 1).limit(10)
+
+          for book in books_sorted_by_title:
+              print(book)
+          ```
+        </div>
+    </TabItem>
   </Tabs>
 </details>
