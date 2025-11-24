@@ -120,9 +120,9 @@ Now, translate the following into a MongoDB query.
 
         List<Book> filteredBooks = booksCollection.Find(booksWithTotalInventoryOf5).ToList<Book>();
 
-        if(filteredBooks != null)
+        if (filteredBooks != null)
         {
-            foreach(var book in filteredBooks)
+            foreach (var book in filteredBooks)
             {
                 Console.WriteLine($"Book Title: {book.Title} - Total Inventory: {book.TotalInventory}");
             }
@@ -164,9 +164,9 @@ Now, translate the following into a MongoDB query.
 
           List<Book> filteredBooks = booksCollection.Find(booksWithMoreThan300Pages).ToList<Book>();
 
-          if(filteredBooks != null)
+          if (filteredBooks != null)
           {
-              foreach(var book in filteredBooks)
+              foreach (var book in filteredBooks)
               {
                   Console.WriteLine($"Book Title: {book.Title} - Pages: {book.Pages}");
               }
@@ -203,7 +203,16 @@ Now, translate the following into a MongoDB query.
     <TabItem value="csharp" label="C#">
       <div>
         ```csharp
-        var booksWithGenreScienceAndMoreThan300Pages = Builders<Book>.Filter.And(Builders<Book>.Filter.AnyEq(b => b.Genres, "Science"), Builders<Book>.Filter.Gt(b => b.Pages, 300));
+        var booksWithGenreScienceAndMoreThan300Pages = Builders<Book>
+          .Filter
+          .And(
+            Builders<Book>
+              .Filter
+              .AnyEq(b => b.Genres, "Science"),
+            Builders<Book>
+              .Filter
+              .Gt(b => b.Pages, 300)
+          );
 
         var filteredBooks = booksCollection
             .Find(booksWithGenreScienceAndMoreThan300Pages)

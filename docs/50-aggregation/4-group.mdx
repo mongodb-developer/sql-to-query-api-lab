@@ -159,6 +159,7 @@ GROUP BY year;
             [BsonElement("avgRating")]
             public double AvgRating { get; set; }
         }
+
         var pipeline = reviewsCollection.Aggregate()
             .Group(
                 r => r.BookId,

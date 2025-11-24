@@ -171,16 +171,18 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         <TabItem value="addFields" label="Using $addFields">
           <div>
           ```csharp
-            var pipeline = booksCollection.Aggregate()
-              .Match(b => b.Year > 2000)
-              .Match(Builders<Book>.Filter.Exists(b => b.Authors))
-              .AppendStage<BsonDocument>(
-              new BsonDocument("$addFields", new BsonDocument("numAuthors", new BsonDocument("$size", "$authors")))
+          var pipeline = booksCollection.Aggregate()
+            .Match(b => b.Year > 2000)
+            .Match(Builders<Book>.Filter.Exists(b => b.Authors))
+            .AppendStage<BsonDocument>(
+              new BsonDocument("$addFields",
+                new BsonDocument("numAuthors", new BsonDocument("$size", "$authors"))
+              )
             )
-              .Sort(new BsonDocument("numAuthors", -1))
-              .Limit(1);
+            .Sort(new BsonDocument("numAuthors", -1))
+            .Limit(1);
 
-            var mostAuthors = pipeline.ToList();
+        var mostAuthors = pipeline.ToList();
         ```
           </div>
         </TabItem>
