@@ -93,45 +93,103 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
 <details>
   <summary>Answer</summary>
   <div>
-  There are 2 ways to solve this- 
+  There are 2 ways to solve this-
   - through `books` collection
   - through `authors` collection
-  <Tabs groupId="aggregations">
-    <TabItem value="books" label="through 'books' collection">
-    ```js
-    await books.aggregate([
-      { $unwind: "$authors" },
-      { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
-      {
-        $merge: {
-          into: "author_stats",
-          on: "_id",
-          whenMatched: "merge",
-          whenNotMatched: "insert",
-        },
-      },
-    ]).toArray();
-    ```
+  <Tabs groupId="aggregations" defaultValue="js">
+    <TabItem value="js" label="JavaScript">
+      <Tabs groupId="merge-js" defaultValue="books">
+        <TabItem value="books" label="through books collection">
+        ```js
+        await books.aggregate([
+          { $unwind: "$authors" },
+          { $group: { _id: "$authors.name", totalBooks: { $sum: 1 } } },
+          {
+            $merge: {
+              into: "author_stats",
+              on: "_id",
+              whenMatched: "merge",
+              whenNotMatched: "insert",
+            },
+          },
+        ]).toArray();
+        ```
+        </TabItem>
+
+        <TabItem value="authors" label="through authors collection">
+        ```js
+        const authors = db.collection("authors");
+        await authors.aggregate([
+          { $unwind: "$books" },
+          { $group: { _id: "$name", totalBooks: { $sum: 1 } } },
+          {
+            $merge: {
+              into: "author_stats",
+              on: "_id",
+              whenMatched: "merge",
+              whenNotMatched: "insert"
+            }
+          }
+        ]).toArray();
+        ```
+        </TabItem>
+      </Tabs>
     </TabItem>
 
-    <TabItem value="authors" label="through 'authors' collection">
-    ```js
-    const authors = db.collection("authors");
-    await authors.aggregate([
-      { $unwind: "$books" },
-      { $group: { _id: "$name", totalBooks: { $sum: 1 } } },
-      {
-        $merge: {
-          into: "author_stats",
-          on: "_id",
-          whenMatched: "merge",
-          whenNotMatched: "insert"
-        }
-      }
-    ]).toArray();
-    ```
-    </TabItem>
+    <TabItem value="csharp" label="C#">
+      <Tabs groupId="merge-csharp" defaultValue="books">
+        <TabItem value="books" label="through books collection">
+          <div>
+          ```csharp
+          var result = await booksCollection.Aggregate()
+            .Unwind("authors")
+            .Group(new BsonDocument
+              {
+                  { "_id", "$authors.name" },
+                  { "totalBooks", new BsonDocument("$sum", 1) }
+              })
+            .AppendStage<BsonDocument>(new BsonDocument("$merge", new BsonDocument
+            {
+                { "into", "author_stats" },
+                { "on", "_id" },
+                { "whenMatched", "merge" },
+                { "whenNotMatched", "insert" }
+            }))
+            .ToListAsync();
+          ```
+          </div>
+        </TabItem>
 
+        <TabItem value="authors" label="through authors collection">
+          <div>
+          ```csharp
+          var pipeline = authorsCollection.Aggregate()
+            .AppendStage<BsonDocument>(new BsonDocument{"$unwind", "$books"})
+            .AppendStage<BsonDocument>(new BsonDocument{
+                "$group",
+                new BsonDocument{
+                  {"_id","$name"},
+                  {"totalBooks", new BsonDocument{"$sum", 1}}
+                }
+              }
+            )
+            .AppendStage<BsonDocument>(new BsonDocument{
+                "$merge",
+                new BsonDocument{
+                  {"into","author_stats"},
+                  {"on","_id"},
+                  {"whenMatched","merge"},
+                  {"whenNotMatched","insert"}
+                }
+              }
+            );
+
+          var result = pipeline.ToList();
+          ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>

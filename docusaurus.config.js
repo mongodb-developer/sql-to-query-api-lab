@@ -153,6 +153,7 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
         additionalLanguages: ["powershell", "swift", "kotlin", "python"],
+        additionalLanguages: ["powershell", "swift", "kotlin", "csharp"],
       },
       mermaid: {
         theme: { light: "neutral", dark: "forest" },

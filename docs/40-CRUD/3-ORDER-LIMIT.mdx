@@ -95,6 +95,18 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
               print(book)
           ```
         </div>
+    <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+        var projection = Builders<Book>.Projection.Include(b => b.Title).Include(b => b.Pages);
+        var ascendingTitleSort = Builders<Book>.Sort.Ascending("title");
+
+        List<Book> topBooks = booksCollection.Find(b => true) // Empty filter to find all books
+          .Project<Book>(projection)
+          .Sort(ascendingTitleSort)
+          .Limit(10).ToList();
+        ```
+      </div>
     </TabItem>
   </Tabs>
 </details>

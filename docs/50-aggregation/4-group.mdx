@@ -133,17 +133,48 @@ GROUP BY year;
 
 <details>
   <summary>Answer</summary>
-    ```js
-    await reviews.aggregate([
-      {
-        $group: {
-          _id: "$_id.bookId",
-          avgRating: { $avg: "$rating" }
-        }
-      }
-    ]).toArray();
-    ```
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+        await reviews.aggregate([
+          {
+            $group: {
+              _id: "$_id.bookId",
+              avgRating: { $avg: "$rating" }
+            }
+          }
+        ]).toArray();
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+        public class BookRating
+        {
+            [BsonId]
+            public string BookId { get; set; }
 
+            [BsonElement("avgRating")]
+            public double AvgRating { get; set; }
+        }
+
+        var pipeline = reviewsCollection.Aggregate()
+            .Group(
+                r => r.BookId,
+                g => new BookRating
+                {
+                    BookId = g.Key,
+                    AvgRating = g.Average(r => r.Rating.Value)
+                }
+            );
+
+        var booksWithAvg = pipeline.ToList();
+        ```
+      </div>
+    </TabItem>
+</Tabs>
 </details>
 
 ### 👐 2. Find users with the most number of reviews (Hint: use the `name` field in the reviews collection)
@@ -151,38 +182,90 @@ GROUP BY year;
 <details>
   <summary>Answer</summary>
   <div>
-  There are 2 ways to solve this- 
-  - $group with $sort 
+  There are 2 ways to solve this-
+  - $group with $sort
   - $sortByCount
-  <Tabs groupId="aggregations">
-    <TabItem value="$group with $sum + $sort" label="$group with $sum + $sort">
-    ```js
-    await reviews.aggregate([
-      {
-        $group: {
-          _id: "$name",
-          totalReviews: { $sum: 1 },
-        },
-      },
-      {
-        $sort: {
-          totalReviews: -1,
-        },
-      },
-    ]).toArray();
-    ```
+ <Tabs groupId="aggregations" defaultValue="javascript">
+    <TabItem value="javascript" label="JavaScript">
+      <Tabs groupId="aggregations-js" defaultValue="$group">
+        <TabItem value="$group" label="$group with $sum + $sort">
+          <div>
+            ```js
+            await reviews.aggregate([
+              {
+                $group: {
+                  _id: "$name",
+                  totalReviews: { $sum: 1 },
+                },
+              },
+              {
+                $sort: {
+                  totalReviews: -1,
+                },
+              },
+            ]).toArray();
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="$sortByCount" label="$sortByCount">
+          <div>
+            ```js
+            await reviews.aggregate([
+              {
+                $sortByCount: "$name",
+              },
+            ]).toArray();
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
     </TabItem>
 
-    <TabItem value="sortByCount" label="$sortByCount">
-    ```js
-    await reviews.aggregate([
-      {
-        $sortByCount: "$name",
-      },
-    ]).toArray();
-    ```
-    </TabItem>
+    <TabItem value="csharp" label="C#">
+      <Tabs groupId="aggregations-csharp" defaultValue="$group">
+        <TabItem value="$group" label="$group with $sum + $sort">
+          <div>
+            ```csharp
+            public class ReviewerCount
+            {
+              [BsonId]
+              public string Name { get; set; }
 
+              [BsonElement("totalReviews")]
+              public int TotalReviews { get; set; }
+            }
+
+            var pipeline = reviewsCollection.Aggregate()
+                .Group(
+                    r => r.Name,
+                    g => new ReviewerCount
+                    {
+                        Name = g.Key,
+                        TotalReviews = g.Count()
+                    }
+                )
+                .SortByDescending(r => r.TotalReviews);
+
+            var result = await pipeline.ToListAsync();
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="$sortByCount" label="$sortByCount">
+          <div>
+            ```csharp
+            var pipeline = reviewsCollection.Aggregate()
+                .AppendStage<BsonDocument>(
+                    new BsonDocument("$sortByCount", "$name")
+                );
+
+            var result = pipeline.ToList();
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>
