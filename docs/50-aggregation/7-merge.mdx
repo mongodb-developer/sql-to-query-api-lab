@@ -190,6 +190,42 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         </TabItem>
       </Tabs>
     </TabItem>
+    <TabItem value="python" label="Python">
+      <Tabs groupId="merge-python" defaultValue="books">
+        <TabItem value="books" label="through books collection">
+        ```python
+        author_stats = books.aggregate([
+          { "unwind": "$authors" },
+          { "$group": { "_id": "$authors.name", "totalBooks": { "$sum": 1 } } },
+          {
+            "$merge": {
+              "into": "author_stats",
+              "on": "_id",
+              "whenMatched": "merge",
+              "whenNotMatched": "insert"
+            }
+          }
+        ])
+        ```
+        </TabItem>
+        <TabItem value="authors" label="through authors collection">
+        ```python
+        authors_collection = db.authors
+        author_stats = authors_collection.aggregate([
+          { "$unwind": "$books" },
+          { "$group": { "_id": "$name", "totalBooks": { "$sum": 1 } } },
+          { "$merge": {
+              "into": "author_stats",
+              "on": "_id",
+              "whenMatched": "merge",
+              "whenNotMatched": "insert"
+            }
+          }
+        ])
+        ```
+        </TabItem>
+    </Tabs>
+  </TabItem>
   </Tabs>
   </div>
 </details>

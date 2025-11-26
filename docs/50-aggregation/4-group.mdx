@@ -174,6 +174,23 @@ GROUP BY year;
         ```
       </div>
     </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_with_avg_rating = reviews.aggregate([
+          {
+            "$group": {
+              "_id": "$bookId",
+              "avgRating": { "$avg": "$rating" }
+            }
+          }
+        ])
+
+        for book in books_with_avg_rating:
+            print(book)
+        ```
+      </div>
+    </TabItem>
 </Tabs>
 </details>
 
@@ -261,6 +278,45 @@ GROUP BY year;
                 );
 
             var result = pipeline.ToList();
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <Tabs groupId="aggregations-python" defaultValue="$group">
+        <TabItem value="$group" label="$group with $sum + $sort">
+          <div>
+            ```python
+            reviewers_count = reviews.aggregate([
+              {
+                "$group": {
+                  "_id": "$name",
+                  "totalReviews": { "$sum": 1 }
+                }
+              },
+              {
+                "$sort": { "totalReviews": -1 }
+              }
+            ])
+
+            for reviewer in reviewers_count:
+                print(reviewer)
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="$sortByCount" label="$sortByCount">
+          <div>
+            ```python
+            reviewers_count = reviews.aggregate([
+              {
+                "$sortByCount": "$name"
+              }
+            ])
+
+            for reviewer in reviewers_count:
+                print(reviewer)
             ```
           </div>
         </TabItem>

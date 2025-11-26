@@ -148,5 +148,22 @@ The $lookup operation creates an array within each book document. Using $unwind 
     ```
      </div>
   </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+         books_with_reviews = books.aggregate([
+          {
+            "$lookup":
+            {
+              "from": "reviews",
+              "localField": "_id",
+              "foreignField": "_id.bookId",
+              "as": "reviews"
+            }
+          }
+        ])
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
