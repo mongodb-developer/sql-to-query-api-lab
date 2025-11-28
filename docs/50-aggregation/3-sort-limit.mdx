@@ -193,45 +193,47 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         <TabItem value="project" label="Using $project">
           <div>
             ```python
-            most_authors = books.aggregate([
+            most_authors = books.aggregate
+            ([
               { "$match": { "year": { "$gt": 2000 } } },
-            { "$match": { "authors": { "$exists": True } } },
-            {
-              "$project": {
-                "title": 1,
-                "year": 1,
-                "authors": 1,
-                "numAuthors": { "$size": "$authors" }
-              }
-            },
-            { "$sort": { "numAuthors": -1 } },
-            { "$limit": 1 }
-          ])
+              { "$match": { "authors": { "$exists": True } } },
+              {
+                "$project": {
+                  "title": 1,
+                  "year": 1,
+                  "authors": 1,
+                  "numAuthors": { "$size": "$authors" }
+                }
+              },
+              { "$sort": { "numAuthors": -1 } },
+              { "$limit": 1 }
+            ])
 
-for book in most_authors:
-  print(book)
-          ```
+            for book in most_authors:
+              print(book)
+            ```
           </div>
         </TabItem>
 
         <TabItem value="addFields" label="Using $addFields">
           <div>
             ```python
-            most_authors = books.aggregate([
+            most_authors = books.aggregate
+            ([
               { "$match": { "year": { "$gt": 2000 } } },
-            { "$match": { "authors": { "$exists": True } } },
-            {
-              "$addFields": {
-                "numAuthors": { "$size": "$authors" }
-              }
-            },
-            { "$sort": { "numAuthors": -1 } },
-            { "$limit": 1 }
-          ])
+              { "$match": { "authors": { "$exists": True } } },
+              {
+                "$addFields": {
+                  "numAuthors": { "$size": "$authors" }
+                }
+              },
+              { "$sort": { "numAuthors": -1 } },
+              { "$limit": 1 }
+            ])
 
-for book in most_authors:
-  print(book)
-          ```
+            for book in most_authors:
+              print(book)
+            ```
           </div>
         </TabItem>
       </Tabs>

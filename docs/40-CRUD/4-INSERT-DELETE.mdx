@@ -155,34 +155,34 @@ DELETE FROM reviews WHERE bookId = '0786222727';
       <div>
         ```python
         reviews = db["reviews"]
-reviews.insert_many([
-          {
-            "text": "Thrilling end.",
-            "rating": 4,
-            "name": "Mark",
-            "bookId": "0786222727",
-          },
-          {
-            "text": "Must read!",
-            "rating": 5,
-            "name": "Raj",
-            "bookId": "0786222727",
-          },
-          {
-            "text": "Very expensive",
-            "rating": 3,
-            "name": "Yun",
-            "bookId": "0786222727",
-          },
-          {
-            "text": "Extremely satisfied with the storyline!",
-            "rating": 5,
-            "name": "Lisa",
-            "bookId": "0786222727",
-          }
+        reviews.insert_many([
+            {
+                "text": "Thrilling end.",
+                "rating": 4,
+                "name": "Mark",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Must read!",
+                "rating": 5,
+                "name": "Raj",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Very expensive",
+                "rating": 3,
+                "name": "Yun",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Extremely satisfied with the storyline!",
+                "rating": 5,
+                "name": "Lisa",
+                "bookId": "0786222727",
+            }
         ])
         ```
-        </div>
+      </div>
     </TabItem>
   </Tabs>
 </details>
@@ -222,7 +222,7 @@ reviews.insert_many([
       <div>
         ```python
         reviews = db["reviews"]
-reviews.delete_many({"bookId": "0786222727"})
+        reviews.delete_many({"bookId": "0786222727"})
         ```
       </div>
     </TabItem>

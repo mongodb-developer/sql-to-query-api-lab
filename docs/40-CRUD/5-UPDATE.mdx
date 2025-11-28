@@ -123,7 +123,7 @@ Executing the above command will insert a fresh new document in the collection, 
       <div>
         ```python
         books = db["books"]
-books.update_one(
+        books.update_one(
             {"title": "Treasure of the Sun"},
             {"$set": {"pages": 449}}
         )

@@ -178,16 +178,16 @@ GROUP BY year;
       <div>
         ```python
         books_with_avg_rating = reviews.aggregate([
-          {
-            "$group": {
-              "_id": "$bookId",
-              "avgRating": { "$avg": "$rating" }
+            {
+                "$group": {
+                    "_id": "$bookId",
+                    "avgRating": {"$avg": "$rating"}
+                }
             }
-          }
         ])
 
-for book in books_with_avg_rating:
-  print(book)
+        for book in books_with_avg_rating:
+            print(book)
         ```
       </div>
     </TabItem>
@@ -289,19 +289,19 @@ for book in books_with_avg_rating:
           <div>
             ```python
             reviewers_count = reviews.aggregate([
-              {
-                "$group": {
-                  "_id": "$name",
-                  "totalReviews": { "$sum": 1 }
+                {
+                    "$group": {
+                        "_id": "$name",
+                        "totalReviews": {"$sum": 1}
+                    }
+                },
+                {
+                    "$sort": {"totalReviews": -1}
                 }
-              },
-              {
-                "$sort": { "totalReviews": -1 }
-              }
             ])
 
-for reviewer in reviewers_count:
-  print(reviewer)
+            for reviewer in reviewers_count:
+                print(reviewer)
             ```
           </div>
         </TabItem>
@@ -310,13 +310,13 @@ for reviewer in reviewers_count:
           <div>
             ```python
             reviewers_count = reviews.aggregate([
-              {
-                "$sortByCount": "$name"
-              }
+                {
+                    "$sortByCount": "$name"
+                }
             ])
 
-for reviewer in reviewers_count:
-  print(reviewer)
+            for reviewer in reviewers_count:
+                print(reviewer)
             ```
           </div>
         </TabItem>

@@ -144,10 +144,10 @@ db.books.aggregate([
       <div>
         ```python
         books_two_copies = books.aggregate([
-            { "$match": { "available": { "$gt": 2 } } }
+            {"$match": {"available": {"$gt": 2}}}
         ])
 
-for book in books_two_copies:
+        for book in books_two_copies:
             print(book)
         ```
         </div>
@@ -211,10 +211,10 @@ for book in books_two_copies:
             { "$project": { "title": 1, "year": 1, "_id": 0 } }
         ])
 
-for book in books_two_copies:
+        for book in books_two_copies:
             print(f"Title: {book['title']} - Publication Year: {book['year']}")
         ```
-        </div>
+      </div>
     </TabItem>
   </Tabs>
 </details>

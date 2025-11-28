@@ -211,7 +211,8 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         <TabItem value="authors" label="through authors collection">
         ```python
         authors_collection = db.authors
-author_stats = authors_collection.aggregate([
+        author_stats = authors_collection.aggregate
+        ([
           { "$unwind": "$books" },
           { "$group": { "_id": "$name", "totalBooks": { "$sum": 1 } } },
           { "$merge": {
@@ -224,8 +225,8 @@ author_stats = authors_collection.aggregate([
         ])
         ```
         </TabItem>
-    </Tabs>
-  </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>
