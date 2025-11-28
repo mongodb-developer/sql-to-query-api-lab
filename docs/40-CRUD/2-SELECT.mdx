@@ -124,10 +124,10 @@ Here:
     <TabItem value="python" label="Python">
       <div>
         ```python
-        books_with_title_only = books.find({}, {"title": 1, "_id": 0}).limit(10)
+      books_with_title_only = books.find({}, {"title": 1, "_id": 0}).limit(10)
 
-        for book in books_with_title_only:
-            print(book)
+for book in books_with_title_only:
+  print(book)
         ```
       </div>
     </TabItem>
@@ -183,10 +183,10 @@ Here:
     <TabItem value="python" label="Python">
       <div>
         ```python
-        books_with_genre_history = books.find({"genres": "History"}, {"_id": 0, "authors": 0}).limit(10)
+      books_with_genre_history = books.find({"genres": "History"}, {"_id": 0, "authors": 0}).limit(10)
 
-        for book in books_with_genre_history:
-            print(book)
+for book in books_with_genre_history:
+  print(book)
         ```
       </div>
     </TabItem>
