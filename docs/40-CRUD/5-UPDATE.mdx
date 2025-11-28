@@ -122,8 +122,8 @@ Executing the above command will insert a fresh new document in the collection, 
     <TabItem value="python" label="Python">
       <div>
         ```python
-        reviews = db.collection("books")
-        reviews.update_one(
+        books = db["books"]
+books.update_one(
             {"title": "Treasure of the Sun"},
             {"$set": {"pages": 449}}
         )

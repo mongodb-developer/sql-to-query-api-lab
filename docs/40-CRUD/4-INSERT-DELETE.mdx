@@ -154,8 +154,8 @@ DELETE FROM reviews WHERE bookId = '0786222727';
     <TabItem value="python" label="Python">
       <div>
         ```python
-        reviews = db.collection("reviews")
-        reviews.insert_many([
+        reviews = db["reviews"]
+reviews.insert_many([
           {
             "text": "Thrilling end.",
             "rating": 4,
@@ -221,8 +221,8 @@ DELETE FROM reviews WHERE bookId = '0786222727';
     <TabItem value="python" label="Python">
       <div>
         ```python
-        reviews = db.collection("reviews")
-        reviews.delete_many({"bookId": "0786222727"})
+        reviews = db["reviews"]
+reviews.delete_many({"bookId": "0786222727"})
         ```
       </div>
     </TabItem>
