@@ -192,9 +192,9 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
       <Tabs groupId="aggregations-python" defaultValue="addFields">
         <TabItem value="project" label="Using $project">
           <div>
-          ```python
-          most_authors = books.aggregate([
-            { "$match": { "year": { "$gt": 2000 } } },
+            ```python
+            most_authors = books.aggregate([
+              { "$match": { "year": { "$gt": 2000 } } },
             { "$match": { "authors": { "$exists": True } } },
             {
               "$project": {
@@ -208,17 +208,17 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
             { "$limit": 1 }
           ])
 
-          for book in most_authors:
-              print(book)
+for book in most_authors:
+  print(book)
           ```
           </div>
         </TabItem>
 
         <TabItem value="addFields" label="Using $addFields">
           <div>
-          ```python
-          most_authors = books.aggregate([
-            { "$match": { "year": { "$gt": 2000 } } },
+            ```python
+            most_authors = books.aggregate([
+              { "$match": { "year": { "$gt": 2000 } } },
             { "$match": { "authors": { "$exists": True } } },
             {
               "$addFields": {
@@ -229,8 +229,8 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
             { "$limit": 1 }
           ])
 
-          for book in most_authors:
-              print(book)
+for book in most_authors:
+  print(book)
           ```
           </div>
         </TabItem>
