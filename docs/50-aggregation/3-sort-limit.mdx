@@ -195,8 +195,12 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
             ```python
             most_authors = books.aggregate
             ([
-              { "$match": { "year": { "$gt": 2000 } } },
-              { "$match": { "authors": { "$exists": True } } },
+              {
+                "$match": {
+                  "year": { "$gt": 2000 },
+                  "authors": { "$exists": True }
+                }
+              },
               {
                 "$project": {
                   "title": 1,
@@ -220,8 +224,11 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
             ```python
             most_authors = books.aggregate
             ([
-              { "$match": { "year": { "$gt": 2000 } } },
-              { "$match": { "authors": { "$exists": True } } },
+              {
+                "$match": 
+                { "year": { "$gt": 2000 } },
+                { "authors": { "$exists": True } }
+              },
               {
                 "$addFields": {
                   "numAuthors": { "$size": "$authors" }
