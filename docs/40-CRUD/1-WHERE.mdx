@@ -129,6 +129,25 @@ Now, translate the following into a MongoDB query.
         }
         ```
       </div>
+    </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+       	Bson filter = eq("totalInventory", 5);
+
+        Bson projection = Projections.fields(
+          Projections.include("title", "year", "totalInventory"));
+      
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
     </TabItem>
   </Tabs>
 
@@ -171,6 +190,25 @@ Now, translate the following into a MongoDB query.
                   Console.WriteLine($"Book Title: {book.Title} - Pages: {book.Pages}");
               }
           }
+        ```
+      </div>
+   </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+        Bson filter = gt("pages", 300);		
+
+        Bson projection = Projections.fields(
+            Projections.include("title", "genres", "pages"));
+
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
         ```
       </div>
     </TabItem>
@@ -221,6 +259,27 @@ Now, translate the following into a MongoDB query.
         foreach (var book in filteredBooks)
         {
             Console.WriteLine($"{book.Title} - Pages: {book.Pages}");
+        }
+        ```
+      </div>
+     </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+        Bson filter = and(
+          eq("genres", "Science"),
+          gt("pages", 300));
+
+        Bson projection = Projections.fields(
+            Projections.include("title", "genres", "pages"));
+
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+            System.out.println("No books were found for the given query.");
+        } else {
+            results.forEach(doc -> System.out.println(doc.toJson()));
         }
         ```
       </div>
