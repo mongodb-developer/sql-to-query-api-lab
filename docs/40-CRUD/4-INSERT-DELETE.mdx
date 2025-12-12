@@ -135,46 +135,80 @@ DELETE FROM reviews WHERE bookId = '0786222727';
             ]);
             ```
           </div>
-      </TabItem>
-      <TabItem value="csharp" label="C#">
-          <div>
-            ```csharp
-           var newReviews = new[]
-            {
-                new Review { Text = "Thrilling end.", Rating = 4, Name = "Mark", BookId = "0786222727" },
-                new Review { Text = "Must read!", Rating = 5, Name = "Raj",  BookId = "0786222727" },
-                new Review { Text = "Very expensive", Rating = 3, Name = "Yun",  BookId = "0786222727" },
-                new Review { Text = "Extremely satisfied with the storyline!", Rating = 5, Name = "Lisa", BookId = "0786222727" }
-            };
+    </TabItem>
+    <TabItem value="csharp" label="C#">
+      <div>
+        ```csharp
+        var newReviews = new[]
+        {
+            new Review { Text = "Thrilling end.", Rating = 4, Name = "Mark", BookId = "0786222727" },
+            new Review { Text = "Must read!", Rating = 5, Name = "Raj",  BookId = "0786222727" },
+            new Review { Text = "Very expensive", Rating = 3, Name = "Yun",  BookId = "0786222727" },
+            new Review { Text = "Extremely satisfied with the storyline!", Rating = 5, Name = "Lisa", BookId = "0786222727" }
+        };
 
-            reviewsCollection.InsertMany(newReviews);
-            ```
-          </div>
-       </TabItem><TabItem value="Java" label="Java">
+        reviewsCollection.InsertMany(newReviews);
+        ```
+      </div>
+      </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        reviews = db["reviews"]
+        reviews.insert_many([
+            {
+                "text": "Thrilling end.",
+                "rating": 4,
+                "name": "Mark",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Must read!",
+                "rating": 5,
+                "name": "Raj",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Very expensive",
+                "rating": 3,
+                "name": "Yun",
+                "bookId": "0786222727",
+            },
+            {
+                "text": "Extremely satisfied with the storyline!",
+                "rating": 5,
+                "name": "Lisa",
+                "bookId": "0786222727",
+            }
+        ])
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="Java" label="Java">
       <div>
         ```Java
-        var reviews = library.getCollection("reviews");
+       var reviews = library.getCollection("reviews");
 
-        reviews.insertMany(List.of(
-                new Document("text", "Thrilling end.")
-                        .append("rating", 4)
-                        .append("name", "Mark")
-                        .append("bookId", "0786222727"),
+       reviews.insertMany(List.of(
+              new Document("text", "Thrilling end.")
+                      .append("rating", 4)
+                      .append("name", "Mark")
+                      .append("bookId", "0786222727"),
 
-                new Document("text", "Very expensive")
-                        .append("rating", 3)
-                        .append("name", "Yun")
-                        .append("bookId", "0786222727"),
+              new Document("text", "Very expensive")
+                      .append("rating", 3)
+                      .append("name", "Yun")
+                      .append("bookId", "0786222727"),
 
-                new Document("text", "Must read!.")
-                        .append("rating", 6)
-                        .append("name", "Raj")
-                        .append("bookId", "0786222727"),
+              new Document("text", "Must read!.")
+                      .append("rating", 6)
+                      .append("name", "Raj")
+                      .append("bookId", "0786222727"),
 
-                new Document("text", "Extremely satisfied with the storyline!")
-                        .append("rating", 5)
-                        .append("name", "Lisa")
-                        .append("bookId", "0786222727")));
+              new Document("text", "Extremely satisfied with the storyline!")
+                      .append("rating", 5)
+                      .append("name", "Lisa")
+                      .append("bookId", "0786222727")));
         ```
       </div>
     </TabItem>
@@ -203,26 +237,35 @@ DELETE FROM reviews WHERE bookId = '0786222727';
     </TabItem>
     <TabItem value="csharp" label="C#">
       <div>
-      ```csharp
-      IMongoCollection<Review> reviewsCollection = db.GetCollection<Review>("reviews");
+        ```csharp
+        IMongoCollection<Review> reviewsCollection = db.GetCollection<Review>("reviews");
 
-      var deletionResult = reviewsCollection.DeleteMany(r => r.BookId == "0786222727");
+        var deletionResult = reviewsCollection.DeleteMany(r => r.BookId == "0786222727");
 
-      Console.WriteLine($"{deletionResult.DeletedCount} review(s) deleted.");
-      ```
+        Console.WriteLine($"{deletionResult.DeletedCount} review(s) deleted.");
+        ```
       </div>
-      </TabItem><TabItem value="Java" label="Java">
+    </TabItem>
+    <TabItem value="python" label="Python">
       <div>
-        ```Java
-          import static com.mongodb.client.model.Filters.eq;
-          import org.bson.conversions.Bson;
+        ```python
+        reviews = db["reviews"]
+        reviews.delete_many({"bookId": "0786222727"})
+        ```
+      </div>
+    </TabItem>    
+    <TabItem value="Java" label="Java">
+      <div>
+        ```Java     
+        import static com.mongodb.client.model.Filters.eq;
+        import org.bson.conversions.Bson;
 
-          MongoCollection<Document> reviews = library.getCollection("reviews");
+        MongoCollection<Document> reviews = library.getCollection("reviews");
 
-          Bson filter = eq("bookId", "0786222727");
+        Bson filter = eq("bookId", "0786222727");
 
-          DeleteResult result = reviews.deleteMany(filter);
-          System.out.println(result.getDeletedCount() + " reviews deleted.");
+        DeleteResult result = reviews.deleteMany(filter);
+        System.out.println(result.getDeletedCount() + " reviews deleted.");
         ```
       </div>
     </TabItem>

@@ -140,6 +140,18 @@ db.books.aggregate([
         ```
       </div>
     </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_two_copies = books.aggregate([
+            {"$match": {"available": {"$gt": 2}}}
+        ])
+
+        for book in books_two_copies:
+            print(book)
+        ```
+        </div>
+    </TabItem> 
   </Tabs>
 </details>
 
@@ -188,6 +200,19 @@ db.books.aggregate([
         {
           Console.WriteLine("Empty Collection");
         }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_two_copies = books.aggregate([
+            { "$match": { "available": { "$gt": 2 } } },
+            { "$project": { "title": 1, "year": 1, "_id": 0 } }
+        ])
+
+        for book in books_two_copies:
+            print(f"Title: {book['title']} - Publication Year: {book['year']}")
         ```
       </div>
     </TabItem>
