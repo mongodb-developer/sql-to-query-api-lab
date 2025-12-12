@@ -150,7 +150,34 @@ DELETE FROM reviews WHERE bookId = '0786222727';
             reviewsCollection.InsertMany(newReviews);
             ```
           </div>
-      </TabItem>
+       </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+        var reviews = library.getCollection("reviews");
+
+        reviews.insertMany(List.of(
+                new Document("text", "Thrilling end.")
+                        .append("rating", 4)
+                        .append("name", "Mark")
+                        .append("bookId", "0786222727"),
+
+                new Document("text", "Very expensive")
+                        .append("rating", 3)
+                        .append("name", "Yun")
+                        .append("bookId", "0786222727"),
+
+                new Document("text", "Must read!.")
+                        .append("rating", 6)
+                        .append("name", "Raj")
+                        .append("bookId", "0786222727"),
+
+                new Document("text", "Extremely satisfied with the storyline!")
+                        .append("rating", 5)
+                        .append("name", "Lisa")
+                        .append("bookId", "0786222727")));
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -183,6 +210,20 @@ DELETE FROM reviews WHERE bookId = '0786222727';
 
       Console.WriteLine($"{deletionResult.DeletedCount} review(s) deleted.");
       ```
+      </div>
+      </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+          import static com.mongodb.client.model.Filters.eq;
+          import org.bson.conversions.Bson;
+
+          MongoCollection<Document> reviews = library.getCollection("reviews");
+
+          Bson filter = eq("bookId", "0786222727");
+
+          DeleteResult result = reviews.deleteMany(filter);
+          System.out.println(result.getDeletedCount() + " reviews deleted.");
+        ```
       </div>
     </TabItem>
   </Tabs>
