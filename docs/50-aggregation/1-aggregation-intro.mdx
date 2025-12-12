@@ -67,6 +67,14 @@ db.books.aggregate([
 ]);
 ```
 
+``` python
+db.books.aggregate([
+  { "$match": { "available": { "$gt": 5 } } },
+  { "$project": { "title": 1, "available": 1, "_id": 0 } },
+  { "$sort": { "available": -1 } },
+])
+```
+
 ---
 
 Next, let's dive into individual stages, starting with `$match` and `$project`. 🚀

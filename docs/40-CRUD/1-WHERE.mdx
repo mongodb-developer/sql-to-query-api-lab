@@ -130,6 +130,18 @@ Now, translate the following into a MongoDB query.
         ```
       </div>
     </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_with_total_inventory_of_5 = books.find({"totalInventory": 5})
+
+        for book in books_with_total_inventory_of_5:
+            title = book['title']
+            inventory = book['totalInventory']
+            print(f"Book Title: {title} - Total Inventory: {inventory}")
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 
 </details>
@@ -171,6 +183,16 @@ Now, translate the following into a MongoDB query.
                   Console.WriteLine($"Book Title: {book.Title} - Pages: {book.Pages}");
               }
           }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_with_more_than_300_pages = books.find({"pages": {"$gt": 300}})
+
+        for book in books_with_more_than_300_pages:
+            print(f"Book Title: {book['title']} - Pages: {book['pages']}")
         ```
       </div>
     </TabItem>
@@ -222,6 +244,16 @@ Now, translate the following into a MongoDB query.
         {
             Console.WriteLine($"{book.Title} - Pages: {book.Pages}");
         }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_with_genre_science_and_more_than_300_pages = books.find({"genres": "Science", "pages": {"$gt": 300}})
+
+        for book in books_with_genre_science_and_more_than_300_pages:
+            print(f"Book Title: {book['title']} - Pages: {book['pages']}")
         ```
       </div>
     </TabItem>
