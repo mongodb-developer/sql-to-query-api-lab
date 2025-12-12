@@ -118,6 +118,17 @@ Executing the above command will insert a fresh new document in the collection, 
             Console.WriteLine($"Matched: {result.MatchedCount}, Modified: {result.ModifiedCount}");
             ```
           </div>
+    </TabItem><TabItem value="Java" label="Java">
+      <div>
+        ```Java
+        import static com.mongodb.client.model.Filters.eq; 
+
+        var query = eq("title", "Treasure of the Sun");
+        var update = Updates.set("pages", 449);
+        UpdateResult updateResult = books.updateOne(query, update);
+        System.out.println("Modified document count: " + updateResult.getModifiedCount());
+        ```
+      </div>
     </TabItem>
   </Tabs>
 </details>
