@@ -245,6 +245,58 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         </TabItem>
       </Tabs>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <Tabs groupId="aggregations-java" defaultValue="addFields">
+        <TabItem value="project" label="Using $project">
+          <div>
+            ```java
+           	books.aggregate(
+            List.of(
+                Aggregates.match(gt("year", 2000)),
+                Aggregates.match(exists("authors", true)),
+                Aggregates.project(
+                    Projections.fields(
+                        Projections.include("title", "year", "authors"),
+                        Projections.computed(
+                            "numAuthors",
+                            new Document("$size", "$authors")
+                        )
+                    )
+                ),
+
+                Aggregates.sort(Sorts.descending("numAuthors")),
+                Aggregates.limit(1)
+            )
+        ).forEach(c -> System.out.println(c.toJson()));
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="addFields" label="Using $addFields">
+          <div>
+            ```java
+            books.aggregate(
+            List.of(
+                    Aggregates.match(gt("year", 2000)),
+                    Aggregates.match(exists("authors", true)),
+                    Aggregates.addFields(
+                        new Field<>(
+                            "numAuthors",
+                            new Document("$size", "$authors")
+                        )
+                    ),
+                    Aggregates.project(
+                        Projections.fields(
+                            Projections.include("title", "year", "authors", "numAuthors"))),
+                    Aggregates.sort(Sorts.descending("numAuthors")),
+                    Aggregates.limit(1)
+                )
+            ).forEach(c -> System.out.println(c.toJson()));
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>

@@ -152,6 +152,17 @@ db.books.aggregate([
         ```
         </div>
     </TabItem> 
+     <TabItem value="java" label="Java">
+      <div>
+        ```java
+        books.aggregate(
+            List.of(
+                Aggregates.match(gt(
+                    "available", 2)))
+            ).forEach(document - > System.out.println(document.toJson()));
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -213,6 +224,19 @@ db.books.aggregate([
 
         for book in books_two_copies:
             print(f"Title: {book['title']} - Publication Year: {book['year']}")
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        books.aggregate(
+            List.of(
+                Aggregates.match(gt(
+                    "available", 2)),
+                Aggregates.project(Projections.include("title", "year")),
+                Aggregates.project(Projections.exclude("_id")))
+            ).forEach(document - > System.out.println(document.toJson()));
         ```
       </div>
     </TabItem>

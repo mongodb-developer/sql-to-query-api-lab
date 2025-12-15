@@ -109,5 +109,21 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
         ```
       </div>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        List<Document> results = books.find()
+              .sort(descending("title"))
+              .limit(10)
+              .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>

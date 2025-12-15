@@ -133,6 +133,25 @@ Here:
         ```
       </div>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        Bson projection = Projections.fields(
+				Projections.include("title"),
+				Projections.exclude("_id"));
+
+        List<Document> results = books.find()
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -191,6 +210,26 @@ Here:
 
         for book in books_with_genre_history:
             print(book)
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        Bson filter = eq("genres", "History");
+        Bson projection = Projections.fields(
+            Projections.exclude("_id", "authors")
+        );
+
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
         ```
       </div>
     </TabItem>

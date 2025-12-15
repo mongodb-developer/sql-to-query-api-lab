@@ -227,6 +227,47 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         </TabItem>
       </Tabs>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <Tabs groupId="merge-java" defaultValue="books">
+        <TabItem value="books" label="through books collection">
+        ```java
+        books.aggregate(
+            List.of(
+              Aggregates.unwind("$authors"),
+              Aggregates.group(
+                "$authors.name",
+                Accumulators.sum("totalBooks", 1)
+              ),
+              Aggregates.merge(
+                "author_stats",
+                new MergeOptions()
+                .uniqueIdentifier("_id")
+                .whenMatched(MergeOptions.WhenMatched.MERGE)
+                .whenNotMatched(MergeOptions.WhenNotMatched.INSERT))
+            )
+        ).toCollection();
+        ```
+        </TabItem>
+        <TabItem value="authors" label="through authors collection">
+        ```java
+         authors.aggregate(
+              List.of(
+                Aggregates.unwind("$books"),
+                Aggregates.group(
+                  "$name",
+                  Accumulators.sum("totalBooks", 1)
+                ),
+                Aggregates.merge(
+                  "author_stats",
+                  new MergeOptions()
+                  .uniqueIdentifier("_id")
+                  .whenMatched(MergeOptions.WhenMatched.MERGE)
+                  .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)))
+          ).toCollection();
+        ```
+        </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>
