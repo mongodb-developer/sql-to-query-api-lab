@@ -130,5 +130,18 @@ Executing the above command will insert a fresh new document in the collection, 
         ```
       </div>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java     
+        import static com.mongodb.client.model.Filters.eq; 
+
+        var query = eq("title", "Treasure of the Sun");
+        var update = Updates.set("pages", 449);
+        
+        UpdateResult updateResult = books.updateOne(query, update);
+        System.out.println("Modified document count: " + updateResult.getModifiedCount());
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>

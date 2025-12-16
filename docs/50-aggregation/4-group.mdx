@@ -191,6 +191,17 @@ GROUP BY year;
         ```
       </div>
     </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+       	reviews.aggregate(
+            List.of(
+            Aggregates.group("$bookId",
+                Accumulators.avg("avgRating", "$rating")))
+        ).forEach(r -> System.out.println(r.toJson()));
+        ```
+      </div>
+    </TabItem>
 </Tabs>
 </details>
 
@@ -317,6 +328,33 @@ GROUP BY year;
 
             for reviewer in reviewers_count:
                 print(reviewer)
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <Tabs groupId="aggregations-java" defaultValue="$group">
+        <TabItem value="$group" label="$group with $sum + $sort">
+          <div>
+            ```java
+            reviews.aggregate(
+                List.of(Aggregates.group(
+                    "$name",
+                    Accumulators.sum("totalReviews", 1)),
+                  Aggregates.sort(descending("totalReviews")))
+            ).forEach(r -> System.out.println(r.toJson()));
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="$sortByCount" label="$sortByCount">
+          <div>
+            ```java
+            reviews.aggregate(
+                List.of(
+                    Aggregates.sortByCount("$name"))
+            ).forEach(r -> System.out.println(r.toJson()));
             ```
           </div>
         </TabItem>

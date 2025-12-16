@@ -129,7 +129,7 @@ Now, translate the following into a MongoDB query.
         }
         ```
       </div>
-    </TabItem>
+
     <TabItem value="python" label="Python">
       <div>
         ```python
@@ -139,6 +139,26 @@ Now, translate the following into a MongoDB query.
             title = book['title']
             inventory = book['totalInventory']
             print(f"Book Title: {title} - Total Inventory: {inventory}")
+        ```
+      </div>
+    </TabItem>
+        </TabItem><TabItem value="java" label="Java">
+      <div>
+        ```java
+       	Bson filter = eq("totalInventory", 5);
+
+        Bson projection = Projections.fields(
+          Projections.include("title", "year", "totalInventory"));
+      
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
         ```
       </div>
     </TabItem>
@@ -185,7 +205,7 @@ Now, translate the following into a MongoDB query.
           }
         ```
       </div>
-    </TabItem>
+   </TabItem>
     <TabItem value="python" label="Python">
       <div>
         ```python
@@ -193,6 +213,26 @@ Now, translate the following into a MongoDB query.
 
         for book in books_with_more_than_300_pages:
             print(f"Book Title: {book['title']} - Pages: {book['pages']}")
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        Bson filter = gt("pages", 300);		
+
+        Bson projection = Projections.fields(
+            Projections.include("title", "genres", "pages"));
+
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+          System.out.println("No books were found for the given query.");
+        } else {
+          results.forEach(doc -> System.out.println(doc.toJson()));
+        }
         ```
       </div>
     </TabItem>
@@ -246,14 +286,36 @@ Now, translate the following into a MongoDB query.
         }
         ```
       </div>
-    </TabItem>
-    <TabItem value="python" label="Python">
+     </TabItem>
+     <TabItem value="python" label="Python">
       <div>
         ```python
         books_with_genre_science_and_more_than_300_pages = books.find({"genres": "Science", "pages": {"$gt": 300}})
 
         for book in books_with_genre_science_and_more_than_300_pages:
             print(f"Book Title: {book['title']} - Pages: {book['pages']}")
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        Bson filter = and(
+          eq("genres", "Science"),
+          gt("pages", 300));
+
+        Bson projection = Projections.fields(
+            Projections.include("title", "genres", "pages"));
+
+        List<Document> results = books.find(filter)
+            .projection(projection)
+            .into(new ArrayList<>());
+
+        if (results.isEmpty()) {
+            System.out.println("No books were found for the given query.");
+        } else {
+            results.forEach(doc -> System.out.println(doc.toJson()));
+        }
         ```
       </div>
     </TabItem>
