@@ -216,6 +216,8 @@ Here:
     <TabItem value="java" label="Java">
       <div>
         ```java
+        import static com.mongodb.client.model.Filters.eq;
+        
         Bson filter = eq("genres", "History");
         Bson projection = Projections.fields(
             Projections.exclude("_id", "authors")
