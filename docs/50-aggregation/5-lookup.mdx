@@ -170,6 +170,8 @@ The $lookup operation creates an array within each book document. Using $unwind 
         ```java
         import com.mongodb.client.model.Aggregates;
         
+        MongoCollection<Document> books = library.getCollection("books");
+
         books.aggregate(
           List.of(
             Aggregates.lookup(
