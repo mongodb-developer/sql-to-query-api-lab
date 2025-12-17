@@ -338,6 +338,8 @@ GROUP BY year;
         <TabItem value="$group" label="$group with $sum + $sort">
           <div>
             ```java
+            import static com.mongodb.client.model.Sorts.descending;
+            
             reviews.aggregate(
                 List.of(Aggregates.group(
                     "$name",

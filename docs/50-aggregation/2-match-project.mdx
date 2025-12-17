@@ -155,11 +155,13 @@ db.books.aggregate([
      <TabItem value="java" label="Java">
       <div>
         ```java
+        import com.mongodb.client.model.Aggregates;
+
         books.aggregate(
             List.of(
                 Aggregates.match(gt(
                     "available", 2)))
-            ).forEach(document - > System.out.println(document.toJson()));
+            ).forEach(document -> System.out.println(document.toJson()));
         ```
       </div>
     </TabItem>
@@ -230,13 +232,16 @@ db.books.aggregate([
     <TabItem value="java" label="Java">
       <div>
         ```java
+        import com.mongodb.client.model.Aggregates;
+        import com.mongodb.client.model.Projections;
+
         books.aggregate(
             List.of(
                 Aggregates.match(gt(
                     "available", 2)),
                 Aggregates.project(Projections.include("title", "year")),
                 Aggregates.project(Projections.exclude("_id")))
-            ).forEach(document - > System.out.println(document.toJson()));
+            ).forEach(document -> System.out.println(document.toJson()));
         ```
       </div>
     </TabItem>
