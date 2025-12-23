@@ -231,6 +231,8 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
       <Tabs groupId="merge-java" defaultValue="books">
         <TabItem value="books" label="through books collection">
         ```java
+        import com.mongodb.client.model.MergeOptions;
+
         books.aggregate(
             List.of(
               Aggregates.unwind("$authors"),
@@ -250,20 +252,22 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         </TabItem>
         <TabItem value="authors" label="through authors collection">
         ```java
-         authors.aggregate(
-              List.of(
-                Aggregates.unwind("$books"),
-                Aggregates.group(
-                  "$name",
-                  Accumulators.sum("totalBooks", 1)
-                ),
-                Aggregates.merge(
-                  "author_stats",
-                  new MergeOptions()
-                  .uniqueIdentifier("_id")
-                  .whenMatched(MergeOptions.WhenMatched.MERGE)
-                  .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)))
-          ).toCollection();
+        import com.mongodb.client.model.MergeOptions;
+
+        authors.aggregate(
+             List.of(
+               Aggregates.unwind("$books"),
+               Aggregates.group(
+                 "$name",
+                 Accumulators.sum("totalBooks", 1)
+               ),
+               Aggregates.merge(
+                 "author_stats",
+                 new MergeOptions()
+                 .uniqueIdentifier("_id")
+                 .whenMatched(MergeOptions.WhenMatched.MERGE)
+                 .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)))
+        ).toCollection();
         ```
         </TabItem>
       </Tabs>
