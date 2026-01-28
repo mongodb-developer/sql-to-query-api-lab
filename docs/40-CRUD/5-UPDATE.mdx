@@ -132,9 +132,7 @@ Executing the above command will insert a fresh new document in the collection, 
     </TabItem>
     <TabItem value="java" label="Java">
       <div>
-        ```java     
-        import static com.mongodb.client.model.Filters.eq; 
-
+        ```java
         var query = eq("title", "Treasure of the Sun");
         var update = Updates.set("pages", 449);
         

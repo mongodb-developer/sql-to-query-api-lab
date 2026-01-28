@@ -112,8 +112,6 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
     <TabItem value="java" label="Java">
       <div>
         ```java
-        import static com.mongodb.client.model.Sorts.descending;
-        
         List<Document> results = books.find()
               .sort(descending("title"))
               .limit(10)

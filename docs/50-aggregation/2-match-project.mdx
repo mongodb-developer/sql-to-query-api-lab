@@ -155,8 +155,6 @@ db.books.aggregate([
      <TabItem value="java" label="Java">
       <div>
         ```java
-        import com.mongodb.client.model.Aggregates;
-
         books.aggregate(
             List.of(
                 Aggregates.match(gt(
@@ -232,9 +230,6 @@ db.books.aggregate([
     <TabItem value="java" label="Java">
       <div>
         ```java
-        import com.mongodb.client.model.Aggregates;
-        import com.mongodb.client.model.Projections;
-
         books.aggregate(
             List.of(
                 Aggregates.match(gt(
