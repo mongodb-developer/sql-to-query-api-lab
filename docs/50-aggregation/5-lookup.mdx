@@ -168,8 +168,6 @@ The $lookup operation creates an array within each book document. Using $unwind 
      <TabItem value="java" label="Java">
       <div>
         ```java
-        import com.mongodb.client.model.Aggregates;
-        
         MongoCollection<Document> books = library.getCollection("books");
 
         books.aggregate(

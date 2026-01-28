@@ -257,9 +257,6 @@ DELETE FROM reviews WHERE bookId = '0786222727';
     <TabItem value="java" label="Java">
       <div>
         ```java     
-        import static com.mongodb.client.model.Filters.eq;
-        import org.bson.conversions.Bson;
-
         MongoCollection<Document> reviews = library.getCollection("reviews");
 
         Bson filter = eq("bookId", "0786222727");

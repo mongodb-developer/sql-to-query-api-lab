@@ -250,12 +250,6 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         <TabItem value="project" label="Using $project">
           <div>
             ```java
-            import com.mongodb.client.model.Projections;
-            import com.mongodb.client.model.Field;
-            import com.mongodb.client.model.Sorts;
-            import static com.mongodb.client.model.Filters.exists;
-            import static com.mongodb.client.model.Filters.gt;
-
            	books.aggregate(
             List.of(
                 Aggregates.match(gt("year", 2000)),
@@ -281,11 +275,6 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         <TabItem value="addFields" label="Using $addFields">
           <div>
             ```java
-            import com.mongodb.client.model.Projections;
-            import com.mongodb.client.model.Field;
-            import com.mongodb.client.model.Sorts;
-            import static com.mongodb.client.model.Filters.exists;
-            import static com.mongodb.client.model.Filters.gt;
 
             books.aggregate(
             List.of(
