@@ -183,5 +183,29 @@ The $lookup operation creates an array within each book document. Using $unwind 
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        pipeline := mongo.Pipeline{
+            {{Key: "$lookup", Value: bson.D{
+                {Key: "from", Value: "reviews"},
+                {Key: "localField", Value: "_id"},
+                {Key: "foreignField", Value: "_id.bookId"},
+                {Key: "as", Value: "reviews"},
+            }}},
+        }
+
+        cursor, err := booksCollection.Aggregate(context.TODO(), pipeline)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []bson.M
+        cursor.All(context.TODO(), &results)
+        for _, doc := range results {
+            fmt.Println(doc)
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>

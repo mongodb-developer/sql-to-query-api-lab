@@ -268,6 +268,60 @@ ON DUPLICATE KEY UPDATE totalBooks = VALUES(totalBooks);
         </TabItem>
       </Tabs>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <Tabs groupId="merge-go" defaultValue="books">
+        <TabItem value="books" label="through books collection">
+          <div>
+            ```go
+            pipeline := mongo.Pipeline{
+                {{Key: "$unwind", Value: "$authors"}},
+                {{Key: "$group", Value: bson.D{
+                    {Key: "_id", Value: "$authors.name"},
+                    {Key: "totalBooks", Value: bson.D{{Key: "$sum", Value: 1}}},
+                }}},
+                {{Key: "$merge", Value: bson.D{
+                    {Key: "into", Value: "author_stats"},
+                    {Key: "on", Value: "_id"},
+                    {Key: "whenMatched", Value: "merge"},
+                    {Key: "whenNotMatched", Value: "insert"},
+                }}},
+            }
+
+            _, err := booksCollection.Aggregate(context.TODO(), pipeline)
+            if err != nil {
+                log.Fatal(err)
+            }
+            fmt.Println("author_stats updated via books collection")
+            ```
+          </div>
+        </TabItem>
+        <TabItem value="authors" label="through authors collection">
+          <div>
+            ```go
+            pipeline := mongo.Pipeline{
+                {{Key: "$unwind", Value: "$books"}},
+                {{Key: "$group", Value: bson.D{
+                    {Key: "_id", Value: "$name"},
+                    {Key: "totalBooks", Value: bson.D{{Key: "$sum", Value: 1}}},
+                }}},
+                {{Key: "$merge", Value: bson.D{
+                    {Key: "into", Value: "author_stats"},
+                    {Key: "on", Value: "_id"},
+                    {Key: "whenMatched", Value: "merge"},
+                    {Key: "whenNotMatched", Value: "insert"},
+                }}},
+            }
+
+            _, err := authorsCollection.Aggregate(context.TODO(), pipeline)
+            if err != nil {
+                log.Fatal(err)
+            }
+            fmt.Println("author_stats updated via authors collection")
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
   </Tabs>
   </div>
 </details>

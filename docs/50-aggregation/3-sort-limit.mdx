@@ -298,6 +298,31 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         </TabItem>
       </Tabs>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        pipeline := mongo.Pipeline{
+            {{Key: "$match", Value: bson.D{{Key: "year", Value: bson.D{{Key: "$gt", Value: int32(2000)}}}}}},
+            {{Key: "$match", Value: bson.D{{Key: "authors", Value: bson.D{{Key: "$exists", Value: true}}}}}},
+            {{Key: "$addFields", Value: bson.D{
+                {Key: "numAuthors", Value: bson.D{{Key: "$size", Value: "$authors"}}},
+            }}},
+            {{Key: "$sort", Value: bson.D{{Key: "numAuthors", Value: -1}}}},
+            {{Key: "$limit", Value: 1}},
+        }
+
+        cursor, err := booksCollection.Aggregate(context.TODO(), pipeline)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []bson.M
+        cursor.All(context.TODO(), &results)
+        for _, doc := range results {
+            fmt.Println(doc)
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
   </div>
 </details>

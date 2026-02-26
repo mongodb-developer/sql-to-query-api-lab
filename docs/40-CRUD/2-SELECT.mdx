@@ -152,6 +152,24 @@ Here:
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        projection := bson.D{{Key: "_id", Value: 0}, {Key: "title", Value: 1}}
+        opts := options.Find().SetProjection(projection).SetLimit(10)
+
+        cursor, err := booksCollection.Find(context.TODO(), bson.D{}, opts)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Println(book.Title)
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -229,6 +247,25 @@ Here:
           System.out.println("No books were found for the given query.");
         } else {
           results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{{Key: "genres", Value: "History"}}
+        projection := bson.D{{Key: "_id", Value: 0}, {Key: "authors", Value: 0}}
+        opts := options.Find().SetProjection(projection).SetLimit(10)
+
+        cursor, err := booksCollection.Find(context.TODO(), filter, opts)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []bson.M
+        cursor.All(context.TODO(), &results)
+        for _, doc := range results {
+            fmt.Println(doc)
         }
         ```
       </div>

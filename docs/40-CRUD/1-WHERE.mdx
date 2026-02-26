@@ -149,7 +149,7 @@ Now, translate the following into a MongoDB query.
 
         Bson projection = Projections.fields(
           Projections.include("title", "year", "totalInventory"));
-      
+
         List<Document> results = books.find(filter)
             .projection(projection)
             .into(new ArrayList<>());
@@ -158,6 +158,25 @@ Now, translate the following into a MongoDB query.
           System.out.println("No books were found for the given query.");
         } else {
           results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{{Key: "totalInventory", Value: int32(5)}}
+
+        cursor, err := booksCollection.Find(context.TODO(), filter)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        if err = cursor.All(context.TODO(), &results); err != nil {
+            log.Fatal(err)
+        }
+        for _, book := range results {
+            fmt.Printf("Book Title: %s - Total Inventory: %d\n", book.Title, book.TotalInventory)
         }
         ```
       </div>
@@ -219,7 +238,7 @@ Now, translate the following into a MongoDB query.
     <TabItem value="java" label="Java">
       <div>
         ```java
-        Bson filter = gt("pages", 300);		
+        Bson filter = gt("pages", 300);
 
         Bson projection = Projections.fields(
             Projections.include("title", "genres", "pages"));
@@ -232,6 +251,23 @@ Now, translate the following into a MongoDB query.
           System.out.println("No books were found for the given query.");
         } else {
           results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{{Key: "pages", Value: bson.D{{Key: "$gt", Value: int32(300)}}}}
+
+        cursor, err := booksCollection.Find(context.TODO(), filter)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Printf("Book Title: %s - Pages: %d\n", book.Title, book.Pages)
         }
         ```
       </div>
@@ -315,6 +351,26 @@ Now, translate the following into a MongoDB query.
             System.out.println("No books were found for the given query.");
         } else {
             results.forEach(doc -> System.out.println(doc.toJson()));
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{
+            {Key: "genres", Value: "Science"},
+            {Key: "pages", Value: bson.D{{Key: "$gt", Value: int32(300)}}},
+        }
+
+        cursor, err := booksCollection.Find(context.TODO(), filter)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Printf("Book Title: %s - Pages: %d\n", book.Title, book.Pages)
         }
         ```
       </div>

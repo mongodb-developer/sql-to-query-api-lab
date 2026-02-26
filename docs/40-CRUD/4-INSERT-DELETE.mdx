@@ -212,6 +212,43 @@ DELETE FROM reviews WHERE bookId = '0786222727';
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        newReviews := []interface{}{
+            bson.D{
+                {Key: "text", Value: "Thrilling end."},
+                {Key: "rating", Value: int32(4)},
+                {Key: "name", Value: "Mark"},
+                {Key: "bookId", Value: "0786222727"},
+            },
+            bson.D{
+                {Key: "text", Value: "Must read!"},
+                {Key: "rating", Value: int32(5)},
+                {Key: "name", Value: "Raj"},
+                {Key: "bookId", Value: "0786222727"},
+            },
+            bson.D{
+                {Key: "text", Value: "Very expensive"},
+                {Key: "rating", Value: int32(3)},
+                {Key: "name", Value: "Yun"},
+                {Key: "bookId", Value: "0786222727"},
+            },
+            bson.D{
+                {Key: "text", Value: "Extremely satisfied with the storyline!"},
+                {Key: "rating", Value: int32(5)},
+                {Key: "name", Value: "Lisa"},
+                {Key: "bookId", Value: "0786222727"},
+            },
+        }
+        result, err := reviewsCollection.InsertMany(context.TODO(), newReviews)
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Println("Inserted IDs:", result.InsertedIDs)
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -256,13 +293,26 @@ DELETE FROM reviews WHERE bookId = '0786222727';
     </TabItem>    
     <TabItem value="java" label="Java">
       <div>
-        ```java     
+        ```java
         MongoCollection<Document> reviews = library.getCollection("reviews");
 
         Bson filter = eq("bookId", "0786222727");
 
         DeleteResult result = reviews.deleteMany(filter);
         System.out.println(result.getDeletedCount() + " reviews deleted.");
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{{Key: "bookId", Value: "0786222727"}}
+
+        result, err := reviewsCollection.DeleteMany(context.TODO(), filter)
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Printf("%d review(s) deleted.\n", result.DeletedCount)
         ```
       </div>
     </TabItem>

@@ -163,6 +163,25 @@ db.books.aggregate([
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        pipeline := mongo.Pipeline{
+            {{Key: "$match", Value: bson.D{{Key: "available", Value: bson.D{{Key: "$gt", Value: int32(2)}}}}}},
+        }
+
+        cursor, err := booksCollection.Aggregate(context.TODO(), pipeline)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Printf("Title: %s - Available: %d\n", book.Title, book.Available)
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>
 
@@ -237,6 +256,30 @@ db.books.aggregate([
                 Aggregates.project(Projections.include("title", "year")),
                 Aggregates.project(Projections.exclude("_id")))
             ).forEach(document -> System.out.println(document.toJson()));
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        pipeline := mongo.Pipeline{
+            {{Key: "$match", Value: bson.D{{Key: "available", Value: bson.D{{Key: "$gt", Value: int32(2)}}}}}},
+            {{Key: "$project", Value: bson.D{
+                {Key: "title", Value: 1},
+                {Key: "year", Value: 1},
+                {Key: "_id", Value: 0},
+            }}},
+        }
+
+        cursor, err := booksCollection.Aggregate(context.TODO(), pipeline)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Printf("Title: %s - Year: %d\n", book.Title, book.Year)
+        }
         ```
       </div>
     </TabItem>

@@ -204,6 +204,28 @@ GROUP BY year;
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        pipeline := mongo.Pipeline{
+            {{Key: "$group", Value: bson.D{
+                {Key: "_id", Value: "$bookId"},
+                {Key: "avgRating", Value: bson.D{{Key: "$avg", Value: "$rating"}}},
+            }}},
+        }
+
+        cursor, err := reviewsCollection.Aggregate(context.TODO(), pipeline)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []bson.M
+        cursor.All(context.TODO(), &results)
+        for _, doc := range results {
+            fmt.Println(doc)
+        }
+        ```
+      </div>
+    </TabItem>
 </Tabs>
 </details>
 
@@ -356,11 +378,58 @@ GROUP BY year;
           <div>
             ```java
             MongoCollection<Document> reviews = library.getCollection("reviews");
-            
+
             reviews.aggregate(
                 List.of(
                     Aggregates.sortByCount("$name"))
             ).forEach(r -> System.out.println(r.toJson()));
+            ```
+          </div>
+        </TabItem>
+      </Tabs>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <Tabs groupId="aggregations-go" defaultValue="$group">
+        <TabItem value="$group" label="$group with $sum + $sort">
+          <div>
+            ```go
+            pipeline := mongo.Pipeline{
+                {{Key: "$group", Value: bson.D{
+                    {Key: "_id", Value: "$name"},
+                    {Key: "totalReviews", Value: bson.D{{Key: "$sum", Value: 1}}},
+                }}},
+                {{Key: "$sort", Value: bson.D{{Key: "totalReviews", Value: -1}}}},
+            }
+
+            cursor, err := reviewsCollection.Aggregate(context.TODO(), pipeline)
+            if err != nil {
+                log.Fatal(err)
+            }
+            var results []bson.M
+            cursor.All(context.TODO(), &results)
+            for _, doc := range results {
+                fmt.Println(doc)
+            }
+            ```
+          </div>
+        </TabItem>
+
+        <TabItem value="$sortByCount" label="$sortByCount">
+          <div>
+            ```go
+            pipeline := mongo.Pipeline{
+                {{Key: "$sortByCount", Value: "$name"}},
+            }
+
+            cursor, err := reviewsCollection.Aggregate(context.TODO(), pipeline)
+            if err != nil {
+                log.Fatal(err)
+            }
+            var results []bson.M
+            cursor.All(context.TODO(), &results)
+            for _, doc := range results {
+                fmt.Println(doc)
+            }
             ```
           </div>
         </TabItem>

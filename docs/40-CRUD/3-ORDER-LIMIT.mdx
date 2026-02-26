@@ -125,5 +125,24 @@ This returns the **top 10 available books** in the "Science Fiction" genre.
         ```
       </div>
     </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        opts := options.Find().
+            SetSort(bson.D{{Key: "title", Value: 1}}).
+            SetLimit(10)
+
+        cursor, err := booksCollection.Find(context.TODO(), bson.D{}, opts)
+        if err != nil {
+            log.Fatal(err)
+        }
+        var results []Book
+        cursor.All(context.TODO(), &results)
+        for _, book := range results {
+            fmt.Println(book.Title)
+        }
+        ```
+      </div>
+    </TabItem>
   </Tabs>
 </details>

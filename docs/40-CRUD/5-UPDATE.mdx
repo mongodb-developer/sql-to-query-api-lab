@@ -135,9 +135,23 @@ Executing the above command will insert a fresh new document in the collection, 
         ```java
         var query = eq("title", "Treasure of the Sun");
         var update = Updates.set("pages", 449);
-        
+
         UpdateResult updateResult = books.updateOne(query, update);
         System.out.println("Modified document count: " + updateResult.getModifiedCount());
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="go" label="Go">
+      <div>
+        ```go
+        filter := bson.D{{Key: "title", Value: "Treasure of the Sun"}}
+        update := bson.D{{Key: "$set", Value: bson.D{{Key: "pages", Value: int32(449)}}}}
+
+        result, err := booksCollection.UpdateOne(context.TODO(), filter, update)
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Printf("Matched: %d, Modified: %d\n", result.MatchedCount, result.ModifiedCount)
         ```
       </div>
     </TabItem>
