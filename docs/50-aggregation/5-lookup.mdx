@@ -108,7 +108,7 @@ The $lookup operation creates an array within each book document. Using $unwind 
             {
               from: "reviews",
               localField: "_id",
-              foreignField: "_id.bookId",
+              foreignField: "bookId",
               as: "reviews"
             }
           }
@@ -125,7 +125,7 @@ The $lookup operation creates an array within each book document. Using $unwind 
             {
               from: "reviews",
               localField: "_id",
-              foreignField: "_id.bookId",
+              foreignField: "bookId",
               as: "reviews"
             }
           }
@@ -157,7 +157,7 @@ The $lookup operation creates an array within each book document. Using $unwind 
             {
               "from": "reviews",
               "localField": "_id",
-              "foreignField": "_id.bookId",
+              "foreignField": "bookId",
               "as": "reviews"
             }
           }
