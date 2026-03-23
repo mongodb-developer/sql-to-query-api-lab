@@ -207,7 +207,7 @@ GROUP BY year;
 </Tabs>
 </details>
 
-### 👐 2. Find users with the most number of reviews (Hint: use the `name` field in the reviews collection)
+### 👐 2. Find the top 5 users with the most number of reviews (Hint: use the `name` field in the reviews collection)
 
 <details>
   <summary>Answer</summary>
@@ -233,6 +233,9 @@ GROUP BY year;
                   totalReviews: -1,
                 },
               },
+              {
+                $limit: 5,
+              },
             ]).toArray();
             ```
           </div>
@@ -244,6 +247,9 @@ GROUP BY year;
             await reviews.aggregate([
               {
                 $sortByCount: "$name",
+              },
+              {
+                $limit: 5,
               },
             ]).toArray();
             ```
@@ -275,7 +281,8 @@ GROUP BY year;
                         TotalReviews = g.Count()
                     }
                 )
-                .SortByDescending(r => r.TotalReviews);
+                .SortByDescending(r => r.TotalReviews)
+                .Limit(5);
 
             var result = await pipeline.ToListAsync();
             ```
@@ -288,7 +295,8 @@ GROUP BY year;
             var pipeline = reviewsCollection.Aggregate()
                 .AppendStage<BsonDocument>(
                     new BsonDocument("$sortByCount", "$name")
-                );
+                )
+                .Limit(5);
 
             var result = pipeline.ToList();
             ```
@@ -310,6 +318,9 @@ GROUP BY year;
                 },
                 {
                     "$sort": {"totalReviews": -1}
+                },
+                {
+                    "$limit": 5
                 }
             ])
 
@@ -325,6 +336,9 @@ GROUP BY year;
             reviewers_count = reviews.aggregate([
                 {
                     "$sortByCount": "$name"
+                },
+                {
+                    "$limit": 5
                 }
             ])
 
@@ -346,7 +360,8 @@ GROUP BY year;
                 List.of(Aggregates.group(
                     "$name",
                     Accumulators.sum("totalReviews", 1)),
-                  Aggregates.sort(descending("totalReviews")))
+                  Aggregates.sort(descending("totalReviews")),
+                  Aggregates.limit(5))
             ).forEach(r -> System.out.println(r.toJson()));
             ```
           </div>
@@ -359,7 +374,8 @@ GROUP BY year;
             
             reviews.aggregate(
                 List.of(
-                    Aggregates.sortByCount("$name"))
+                    Aggregates.sortByCount("$name"),
+                    Aggregates.limit(5))
             ).forEach(r -> System.out.println(r.toJson()));
             ```
           </div>
