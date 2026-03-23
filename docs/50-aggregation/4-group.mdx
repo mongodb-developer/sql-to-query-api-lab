@@ -140,7 +140,7 @@ GROUP BY year;
         await reviews.aggregate([
           {
             $group: {
-              _id: "$_id.bookId",
+              _id: "$bookId",
               avgRating: { $avg: "$rating" }
             }
           }
