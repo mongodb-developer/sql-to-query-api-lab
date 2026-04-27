@@ -232,11 +232,15 @@ db.books.aggregate([
         ```java
         books.aggregate(
             List.of(
-                Aggregates.match(gt(
-                    "available", 2)),
-                Aggregates.project(Projections.include("title", "year")),
-                Aggregates.project(Projections.exclude("_id")))
-            ).forEach(document -> System.out.println(document.toJson()));
+                Aggregates.match(gt("available", 2)),
+                Aggregates.project(
+                    Projections.fields(
+                        Projections.include("title", "year"), 
+                        Projections.exclude("_id")
+                    )
+                )
+            )
+        ).forEach(document -> System.out.println(document.toJson()));
         ```
       </div>
     </TabItem>
