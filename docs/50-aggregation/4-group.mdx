@@ -194,8 +194,6 @@ GROUP BY year;
     <TabItem value="java" label="Java">
       <div>
         ```java
-        MongoCollection<Document> reviews = library.getCollection("reviews");
-
        	reviews.aggregate(
             List.of(
             Aggregates.group("$bookId",
@@ -354,8 +352,6 @@ GROUP BY year;
         <TabItem value="$group" label="$group with $sum + $sort">
           <div>
             ```java
-            MongoCollection<Document> reviews = library.getCollection("reviews");
-
             reviews.aggregate(
                 List.of(Aggregates.group(
                     "$name",
@@ -369,9 +365,7 @@ GROUP BY year;
 
         <TabItem value="$sortByCount" label="$sortByCount">
           <div>
-            ```java
-            MongoCollection<Document> reviews = library.getCollection("reviews");
-            
+            ```java                       
             reviews.aggregate(
                 List.of(
                     Aggregates.sortByCount("$name"),
