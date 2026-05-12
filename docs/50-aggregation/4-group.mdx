@@ -1,7 +1,7 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# 👐 $group
+# 👐 $group and $unwind
 
 In SQL, the GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country."
 The GROUP BY statement is often used with aggregate functions (COUNT(), MAX(), MIN(), SUM(), AVG()) to group the result-set by one or more columns.
@@ -126,6 +126,49 @@ GROUP BY year;
 ```
 
 ---
+
+## 🔹 How does $unwind work?
+The $unwind stage deconstructs an array field and creates one output document for each element in the array.
+
+```json
+{
+  $unwind: "<array field>"
+}
+``` 
+
+- ```<array field>```: The path to the array field you want to deconstruct
+
+### 👐 Example 1: Return one document for each author
+### MongoDB Query
+```json 
+db.books.aggregate([
+  {
+    $unwind: "$authors"
+  }
+]);
+```
+
+### Equivalent SQL query
+```json
+SELECT
+  b._id,
+  b.title,
+  authors
+FROM books b
+CROSS JOIN UNNEST(b.authors) AS authors
+WHERE b._id = '1567189644';
+```
+
+### Sample output
+```json
+[
+    {  "_id": "0740714104", "title": "Who's Your Daddy?", "author": "Phyllis Wright-Herman" }
+    {  "_id": "0740714104", "title": "Who's Your Daddy?", "author": "Timothy Mikkelsen" }
+    {  "_id": "0740714104", "title": "Who's Your Daddy?", "author": "Ltd. MikWrgiht" }
+]
+```
+
+- This returns one document per author entry in the authors array.
 
 ## 👐 Challenge
 
@@ -379,3 +422,104 @@ GROUP BY year;
   </Tabs>
   </div>
 </details>
+
+### 👐 3. Return one document per author for book id 1567189644
+
+<details>
+  <summary>Answer</summary>
+  <div>
+
+ <Tabs groupId="aggregations" defaultValue="javascript">
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+        ```js
+        await books.aggregate([            
+          {
+              $match: {
+                  _id: "1567189644"
+              }
+          },
+          {
+              $unwind: {
+                path: "$authors"
+              }
+          },
+          {
+              $project: {
+                "_id": 0,
+                "title": 1,
+                "author": "$authors.name"
+              }
+          }
+        ]).toArray();
+        ```
+      </div>       
+    </TabItem>
+
+    <TabItem value="csharp" label="C#">
+          <div>
+            ```csharp
+           var pipeline = booksCollection.Aggregate()
+                .Match(b => b.Id == "1567189644")
+                .Unwind(b => b.Authors)
+                .Project(b => new                  
+                  {
+                     b.Title,
+                     b.Authors.Name
+                  });
+
+            var results = pipeline.ToList();
+            ```
+          </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+        <div>
+          ```python
+           books_with_authors = books.aggregate([
+              {
+                  "$match": {
+                      "_id": "1567189644"
+                  }
+              },
+              {
+                  "$unwind": "$authors"
+              },
+              {
+                  "$project": {
+                      "_id": 0,
+                      "title": 1,
+                      "authors.name": 1
+                  }
+              }
+          ])
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+          <div>
+            ```java
+            AggregateIterable<Document> result = books.aggregate(
+                List.of(
+                    match(eq("_id", "1567189644")),
+                    unwind("$authors"),
+                    project(
+                        fields(
+                            excludeId(),
+                            include("title", "authors.name")
+                        )
+                    )
+                )
+            );
+
+            // Iterate through the results
+            for (Document doc : result) {
+                System.out.println("book: " + doc.toJson());
+            }
+          
+            ```
+          </div>       
+    </TabItem>
+  </Tabs>
+  </div>
+</details>
+
