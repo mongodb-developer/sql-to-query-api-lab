@@ -155,11 +155,15 @@ db.books.aggregate([
      <TabItem value="java" label="Java">
       <div>
         ```java
-        books.aggregate(
-            List.of(
-                Aggregates.match(gt(
-                    "available", 2)))
-            ).forEach(document -> System.out.println(document.toJson()));
+        var matchStage = match(gt("available", 2));
+
+        AggregateIterable<Document> result = books.aggregate(
+            List.of(matchStage) 
+        );
+
+        for (Document doc : result) {
+            System.out.println("book: " + doc.toJson());
+        }
         ```
       </div>
     </TabItem>
@@ -230,17 +234,25 @@ db.books.aggregate([
     <TabItem value="java" label="Java">
       <div>
         ```java
-        books.aggregate(
-            List.of(
-                Aggregates.match(gt("available", 2)),
-                Aggregates.project(
-                    Projections.fields(
-                        Projections.include("title", "year"), 
-                        Projections.exclude("_id")
-                    )
-                )
-            )
-        ).forEach(document -> System.out.println(document.toJson()));
+          var matchStage = Aggregates.match(gt("available", 2));
+
+          var projectStage = project(
+              fields(
+                  include("title", "year"), 
+                  excludeId()
+              )
+          );
+
+          AggregateIterable<Document> result = books.aggregate(
+              List.of(
+                  matchStage,
+                  projectStage
+              )
+          );
+
+          for (Document doc : result) {
+              System.out.println("book: " + doc.toJson());
+          }
         ```
       </div>
     </TabItem>
