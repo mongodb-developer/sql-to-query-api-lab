@@ -237,11 +237,19 @@ WHERE b._id = '1567189644';
     <TabItem value="java" label="Java">
       <div>
         ```java
-       	reviews.aggregate(
+        AggregateIterable<Document> result = reviews.aggregate(
             List.of(
-            Aggregates.group("$bookId",
-                Accumulators.avg("avgRating", "$rating")))
-        ).forEach(r -> System.out.println(r.toJson()));
+                group(
+                    "$bookId",
+                    Accumulators.avg("avg", "$rating")
+                ),
+                limit(5)
+            )
+        );
+
+        for (Document doc : result) {
+            System.out.println("result: " + doc.toJson());
+        }
         ```
       </div>
     </TabItem>
@@ -395,13 +403,20 @@ WHERE b._id = '1567189644';
         <TabItem value="$group" label="$group with $sum + $sort">
           <div>
             ```java
-            reviews.aggregate(
-                List.of(Aggregates.group(
-                    "$name",
-                    Accumulators.sum("totalReviews", 1)),
-                  Aggregates.sort(descending("totalReviews")),
-                  Aggregates.limit(5))
-            ).forEach(r -> System.out.println(r.toJson()));
+            AggregateIterable<Document> result = reviews.aggregate(
+                List.of(
+                    group(
+                        "$name",
+                        Accumulators.sum("totalReviews", 1)
+                    ),
+                  sort(descending("totalReviews")),
+                  limit(5)
+                )
+            );
+
+            for (Document doc : result) {
+                System.out.println("user: " + doc.toJson());
+            }            
             ```
           </div>
         </TabItem>
@@ -409,11 +424,16 @@ WHERE b._id = '1567189644';
         <TabItem value="$sortByCount" label="$sortByCount">
           <div>
             ```java                       
-            reviews.aggregate(
+            AggregateIterable<Document> result = reviews.aggregate(
                 List.of(
                     Aggregates.sortByCount("$name"),
-                    Aggregates.limit(5))
-            ).forEach(r -> System.out.println(r.toJson()));
+                    limit(5)
+                )
+            );
+
+            for (Document doc : result) {
+                System.out.println("user: " + doc.toJson());
+            }
             ```
           </div>
         </TabItem>

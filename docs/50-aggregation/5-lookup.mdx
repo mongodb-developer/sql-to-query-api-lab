@@ -168,16 +168,20 @@ The $lookup operation creates an array within each book document. Using $unwind 
      <TabItem value="java" label="Java">
       <div>
         ```java
-        books.aggregate(
-          List.of(
-            Aggregates.lookup(
-              "reviews",
-              "_id",
-              "bookId",
-              "reviews"
+        AggregateIterable<Document> result = books.aggregate(
+            List.of(
+                Aggregates.lookup("reviews", "_id", "bookId", "reviewsResult"),
+                Aggregates.project(
+                    Projections.include("title", "reviewsResult.name", "reviewsResult.rating")
+                ),
+                limit(5)         
             )
-          )
-        ).forEach(r -> System.out.println(r.toJson()));
+        );
+
+        // Iterate through the results
+        for (Document doc : result) {
+            System.out.println("book: " + doc.toJson());
+        }
         ```
       </div>
     </TabItem>

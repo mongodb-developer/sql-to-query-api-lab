@@ -250,49 +250,55 @@ Learn [when to use $addFields over $project](https://www.practical-mongodb-aggre
         <TabItem value="project" label="Using $project">
           <div>
             ```java
-           	books.aggregate(
-            List.of(
-                Aggregates.match(gt("year", 2000)),
-                Aggregates.match(exists("authors", true)),
-                Aggregates.project(
-                    Projections.fields(
-                        Projections.include("title", "year", "authors"),
-                        Projections.computed(
-                            "numAuthors",
-                            new Document("$size", "$authors")
-                        )
-                    )
-                ),
+           	AggregateIterable<Document> result = books.aggregate(
+              List.of(
+                  match(gt("year", 2000)),
+                  match(exists("authors", true)),
+                  project(
+                      Projections.fields(
+                          Projections.include("title", "year", "authors"),
+                          Projections.computed(
+                              "numAuthors",
+                              new Document("$size", "$authors")
+                          )
+                      )
+                  ),
+                  sort(Sorts.descending("numAuthors")),
+                  limit(1)
+              )
+          );
 
-                Aggregates.sort(Sorts.descending("numAuthors")),
-                Aggregates.limit(1)
-            )
-        ).forEach(c -> System.out.println(c.toJson()));
-            ```
+          // Iterate through the results
+          for (Document doc : result) {
+              System.out.println("book: " + doc.toJson());
+          }            
+          ```
           </div>
         </TabItem>
 
         <TabItem value="addFields" label="Using $addFields">
           <div>
             ```java
+          AggregateIterable<Document> result = books.aggregate(
+              List.of(
+                  match(gt("year", 2000)),
+                  addFields(
+                      new Field<>(
+                          "numAuthors",
+                          new Document("$size", "$authors")
+                      )
+                  ),
+                  project(fields(include("title", "year", "authors", "numAuthors"))),
+                  sort(Sorts.descending("numAuthors")),
+                  limit(1)
+              )
+          );
 
-            books.aggregate(
-            List.of(
-                Aggregates.match(gt("year", 2000)),
-                Aggregates.match(exists("authors", true)),
-                Aggregates.addFields(
-                    new Field<>(
-                        "numAuthors",
-                        new Document("$size", "$authors")
-                    )
-                ),
-                Aggregates.project(
-                    Projections.fields(
-                        Projections.include("title", "year", "authors", "numAuthors"))),
-                Aggregates.sort(Sorts.descending("numAuthors")),
-                Aggregates.limit(1)
-                )
-            ).forEach(c -> System.out.println(c.toJson()));
+          // Iterate through the results
+          for (Document doc : result) {
+              System.out.println("book: " + doc.toJson());
+          }
+            
             ```
           </div>
         </TabItem>
