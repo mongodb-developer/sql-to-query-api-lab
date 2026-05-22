@@ -145,20 +145,10 @@ Now, translate the following into a MongoDB query.
     <TabItem value="java" label="Java">
       <div>
         ```java
-       	Bson filter = eq("totalInventory", 5);
+        Bson filter = eq("totalInventory", 5);
 
-        Bson projection = Projections.fields(
-          Projections.include("title", "year", "totalInventory"));
-      
-        List<Document> results = books.find(filter)
-            .projection(projection)
-            .into(new ArrayList<>());
-
-        if (results.isEmpty()) {
-          System.out.println("No books were found for the given query.");
-        } else {
-          results.forEach(doc -> System.out.println(doc.toJson()));
-        }
+        books.find(filter)
+            .forEach(book -> System.out.println("Book: " + book.toJson()));
         ```
       </div>
     </TabItem>
@@ -219,20 +209,10 @@ Now, translate the following into a MongoDB query.
     <TabItem value="java" label="Java">
       <div>
         ```java
-        Bson filter = gt("pages", 300);		
+        Bson filter = gt("pages", 300);
 
-        Bson projection = Projections.fields(
-            Projections.include("title", "genres", "pages"));
-
-        List<Document> results = books.find(filter)
-            .projection(projection)
-            .into(new ArrayList<>());
-
-        if (results.isEmpty()) {
-          System.out.println("No books were found for the given query.");
-        } else {
-          results.forEach(doc -> System.out.println(doc.toJson()));
-        }
+        books.find(filter)
+            .forEach(book -> System.out.println("Book: " + book.toJson()));
         ```
       </div>
     </TabItem>
@@ -302,20 +282,11 @@ Now, translate the following into a MongoDB query.
         ```java
         Bson filter = and(
           eq("genres", "Science"),
-          gt("pages", 300));
+          gt("pages", 300)
+        );
 
-        Bson projection = Projections.fields(
-            Projections.include("title", "genres", "pages"));
-
-        List<Document> results = books.find(filter)
-            .projection(projection)
-            .into(new ArrayList<>());
-
-        if (results.isEmpty()) {
-            System.out.println("No books were found for the given query.");
-        } else {
-            results.forEach(doc -> System.out.println(doc.toJson()));
-        }
+        books.find(filter)
+            .forEach(book -> System.out.println("Book: " + book.toJson()));
         ```
       </div>
     </TabItem>
