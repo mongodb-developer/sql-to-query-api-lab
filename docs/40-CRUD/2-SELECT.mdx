@@ -1,7 +1,7 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# 👐 SELECT → projection
+# 👐 SELECT → projection 
 
 In SQL, the `SELECT` statement allows us to specify which columns to retrieve from a table. Similarly, in MongoDB, we use **projection** in the `.find()` method to control which fields to include (or exclude) in query results.
 
@@ -136,19 +136,11 @@ Here:
     <TabItem value="java" label="Java">
       <div>
         ```java
-        Bson projection = Projections.fields(
-				Projections.include("title"),
-				Projections.exclude("_id"));
+        Bson projection = fields(excludeId(), include("title"));
 
-        List<Document> results = books.find()
+        books.find()
             .projection(projection)
-            .into(new ArrayList<>());
-
-        if (results.isEmpty()) {
-          System.out.println("No books were found for the given query.");
-        } else {
-          results.forEach(doc -> System.out.println(doc.toJson()));
-        }
+            .forEach(book -> System.out.println("Book: " + book.toJson()));
         ```
       </div>
     </TabItem>
@@ -216,20 +208,12 @@ Here:
     <TabItem value="java" label="Java">
       <div>
         ```java
-        Bson filter = eq("genres", "History");
-        Bson projection = Projections.fields(
-            Projections.exclude("_id", "authors")
-        );
+        Bson filter = eq("genres", "Science");
+        Bson projection = exclude("_id", "authors");
 
-        List<Document> results = books.find(filter)
+        books.find(filter)
             .projection(projection)
-            .into(new ArrayList<>());
-
-        if (results.isEmpty()) {
-          System.out.println("No books were found for the given query.");
-        } else {
-          results.forEach(doc -> System.out.println(doc.toJson()));
-        }
+            .forEach(book -> System.out.println("Book: " + book.toJson()));
         ```
       </div>
     </TabItem>
