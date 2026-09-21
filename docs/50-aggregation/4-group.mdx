@@ -109,7 +109,7 @@ db.books.aggregate([
 ### Equivalent SQL query
 
 ```sql
-SELECT year, SUM(rating) AS totalPages
+SELECT year, SUM(pages) AS totalPages
 FROM books
 GROUP BY year;
 ```
